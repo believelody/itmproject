@@ -1,26 +1,34 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
+import { Header, Main, Footer } from './components/Export';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <Fragment>
+          <Helmet
+            title="ITMProjet"
+            meta={[
+              { name: 'description', content: 'Project about connection between different devices' },
+              { name: 'keywords', content: 'school, gime, it, web, mobile, react' },
+            ]}
+            script={[
+              { 'src': 'https://use.fontawesome.com/releases/v5.0.4/js/all.js'},
+            ]}
+            link={[
+              {'rel':'stylesheet', 'href': 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'}
+            ]}
+          />
+          <div className="app">
+            <Header />
+            <Main />
+            <Footer />
+          </div>
+        </Fragment>
+      </BrowserRouter>
     );
   }
 }
