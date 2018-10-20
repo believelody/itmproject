@@ -15,7 +15,7 @@ export default (state = initialState, { type, payload }) => {
     case types.FETCH_USER_SUCCESS:
       return {
         ...state,
-        users: payload,
+        users: Object.values(payload),
         loading: false
       }
     default:
