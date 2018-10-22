@@ -9,7 +9,6 @@ class Main extends Component {
     return (
       <main>
         <Container>
-          Main Component
           <Route exact path='/' component={Users} />
         </Container>
       </main>
