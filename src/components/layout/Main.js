@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { Users } from '../Export';
+import { Users, AddUser } from '../Export';
 
 class Main extends Component {
 
@@ -10,6 +10,7 @@ class Main extends Component {
       <main>
         <Container>
           <Route exact path='/' component={Users} />
+          <Route exact path='/new-user' component={AddUser} />
         </Container>
       </main>
     );

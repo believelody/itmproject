@@ -31,12 +31,12 @@ class Header extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand to="/">Projet ITM</NavbarBrand>
+          <NavLink className='navbar-brand' to='/'>Projet ITM</NavLink>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to="/users">Gestion des Employés</NavLink>
+                <NavLink className='nav-link' to="/users">Gestion des Employés</NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>

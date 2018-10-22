@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
@@ -21,8 +22,10 @@ class Users extends Component {
         {
           !loading &&
           <div>
-            <Button onClick={this.addEmployee} color='primary'>Add an employee + </Button>
-            <Table>
+            <NavLink to='/new-user'>
+              <Button color='primary' className='my-3'>Ajouter un employé </Button>
+            </NavLink>
+            <Table hover bordered responsive>
               <thead>
                 <tr>
                   <th>#</th>
@@ -30,7 +33,11 @@ class Users extends Component {
                   <th>Nom</th>
                   <th>Email</th>
                   <th>Poste</th>
+                  <th>Actions</th>
                 </tr>
+                {
+                  console.log(users)
+                }
               </thead>
               <tbody>
                 {
@@ -47,6 +54,14 @@ class Users extends Component {
                         <td>{user.name.split(' ')[1]}</td>
                         <td>{user.email}</td>
                         <td>{user.poste}</td>
+                        <td>
+                          <NavLink to={`/user`} className='mr-2'>
+                            <Button color='success'>
+                              Edit
+                            </Button>
+                          </NavLink>
+                          <Button color='danger'>Delete</Button>
+                        </td>
                       </tr>
                     )
                 }
