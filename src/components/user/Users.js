@@ -19,8 +19,9 @@ class Users extends Component {
           !loading &&
           <div>
             <NavLink to='/new-user'>
-              <Button color='primary' className='my-3'>Ajouter un employé </Button>
+              <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
             </NavLink>
+            <Button color='warning' className='my-3 float-right'>Sélectionner champs</Button>
             <Table hover bordered responsive>
               <thead>
                 <tr>

@@ -15,7 +15,9 @@ export const userLoading = (isLoading = true) => ({
 export const fetchUserSuccess = data => ({
   type: types.FETCH_USER_SUCCESS,
   payload: data
-})
+});
+
+const userFailure = errors => ({type: types.USER_FAIL, payload: errors});
 
 export const fetchAllUsers = () => dispatch => {
   userRef.on("value", snapshot => {
@@ -31,19 +33,17 @@ export const fetchOneUser = () => dispatch => {
 }
 
 export const addUser = user => dispatch => {
-  // users.map((user, i) => {
-  //   if (i <= 4) {
-  //     user.poste = 'ingenieur';
-  //   }
-  //   if (i > 4 && i <= 14) {
-  //     user.poste = 'gardien';
-  //   }
-  //   if (i > 14) {
-  //     user.poste = 'technicien';
-  //   }
-  // });
-  userRef.push().set(user);
+  if (user.name === '') {
+    return dispatch(userFailure({code: 'name', msg: 'Name is required'}));
+  }
+  if (user.email === '') {
+    return dispatch(userFailure({code: 'email', msg: 'Email is required'}));
+  }
+  if (user.poste === '') {
+    return dispatch(userFailure({code: 'poste', msg: 'Poste is required'}));
+  }
 
+  userRef.push().set(user);
 }
 
 export const deleteUser = id => dispatch => {
