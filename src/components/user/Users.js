@@ -6,17 +6,13 @@ import { fetchAllUsers } from '../../actions/userAction';
 import { Table, Button } from 'reactstrap';
 
 class Users extends Component {
+
   componentDidMount() {
     this.props.fetchAllUsers();
   }
 
-  addEmployee = () => {
-    console.log('test');
-  }
-
   render() {
     const { loading, users } = this.props.user;
-    // console.log(this.props.user);
     return (
       <div>
         {
@@ -35,9 +31,6 @@ class Users extends Component {
                   <th>Poste</th>
                   <th>Actions</th>
                 </tr>
-                {
-                  console.log(users)
-                }
               </thead>
               <tbody>
                 {

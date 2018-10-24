@@ -19,8 +19,10 @@ export const fetchUserSuccess = data => ({
 
 export const fetchAllUsers = () => dispatch => {
   userRef.on("value", snapshot => {
-    // console.log(snapshot.val());
-    dispatch(fetchUserSuccess(snapshot.val()))
+    let i = 0;
+    let users = Object.values(snapshot.val());
+    for (let user in snapshot.val()) users[i].id = user;
+    dispatch(fetchUserSuccess(users));
   });
 }
 
@@ -28,7 +30,7 @@ export const fetchOneUser = () => dispatch => {
 
 }
 
-export const addUser = data => dispatch => {
+export const addUser = user => dispatch => {
   // users.map((user, i) => {
   //   if (i <= 4) {
   //     user.poste = 'ingenieur';
@@ -40,7 +42,7 @@ export const addUser = data => dispatch => {
   //     user.poste = 'technicien';
   //   }
   // });
-  // userRef.push().set(user);
+  userRef.push().set(user);
 
 }
 

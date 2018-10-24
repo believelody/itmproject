@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addUser } from '../../actions/userAction';
 import { Container, Form, Label, Input, Button, FormGroup } from 'reactstrap';
 
 class AddUser extends Component {
@@ -11,6 +12,9 @@ class AddUser extends Component {
       name: '',
       poste: ''
     };
+  }
+  componentDidMount() {
+    
   }
 
   handleChange = ({target}) => this.setState({ [target.name]: target.value });
@@ -72,4 +76,4 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, {})(AddUser);
+export default connect(mapStateToProps, { addUser })(AddUser);
