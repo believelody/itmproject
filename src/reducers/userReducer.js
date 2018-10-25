@@ -20,10 +20,14 @@ export default (state = initialState, { type, payload }) => {
         loading: false
       }
     case types.USER_FAIL:
-      console.log(state.errors, payload);
       return {
         ...state,
         errors: [...state.errors, payload]
+      }
+    case types.CLEAR_USER_FAILURE:
+      return {
+        ...state,
+        errors: []
       }
     default:
       return state;

@@ -21,7 +21,7 @@ class Users extends Component {
             <NavLink to='/new-user'>
               <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
             </NavLink>
-            <Button color='warning' className='my-3 float-right'>Sélectionner champs</Button>
+            <Button color='warning' className='my-3 float-right'>Sélection champs</Button>
             <Table hover bordered responsive>
               <thead>
                 <tr>

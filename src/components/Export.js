@@ -4,6 +4,7 @@ import Footer from './layout/Footer';
 import Users from './user/Users';
 import AddUser from './user/AddUser';
 import UserDetail from './user/UserDetail';
+import AddUserForm from './form/AddUserForm';
 
 export {
   Header,
@@ -11,5 +12,6 @@ export {
   Footer,
   Users,
   AddUser,
-  UserDetail
+  UserDetail,
+  AddUserForm
 };

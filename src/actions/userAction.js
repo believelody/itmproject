@@ -34,17 +34,20 @@ export const fetchOneUser = () => dispatch => {
 
 export const addUser = user => dispatch => {
   if (user.name === '') {
-    return dispatch(userFailure({code: 'name', msg: 'Name is required'}));
+    dispatch(userFailure({code: 'name', msg: 'Le champ Name est requis'}));
   }
   if (user.email === '') {
-    return dispatch(userFailure({code: 'email', msg: 'Email is required'}));
+    dispatch(userFailure({code: 'email', msg: 'Le champ Email est requis'}));
   }
   if (user.poste === '') {
-    return dispatch(userFailure({code: 'poste', msg: 'Poste is required'}));
+    dispatch(userFailure({code: 'poste', msg: 'Le champ Poste est requis'}));
   }
-
-  userRef.push().set(user);
+  if (user.name !== '' && user.email !== '' && user.poste !== '') {
+    userRef.push().set(user);
+  }
 }
+
+export const clearUserFailure = () => ({ type: types.CLEAR_USER_FAILURE });
 
 export const deleteUser = id => dispatch => {
   userRef.child(id).remove();
