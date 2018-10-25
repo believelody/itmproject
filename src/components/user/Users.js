@@ -3,15 +3,24 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, Input } from 'reactstrap';
 
 class Users extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: ''
+    };
+  }
 
   componentDidMount() {
     this.props.fetchAllUsers();
   }
 
+  search = ({target}) => this.setState({ search: target.value });
+
   render() {
+    const { search } = this.state;
     const { loading, users } = this.props.user;
     return (
       <div>
@@ -21,6 +30,7 @@ class Users extends Component {
             <NavLink to='/new-user'>
               <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
             </NavLink>
+            <Input type='search' placeholder='Chercher un employé' name='search' onChange={this.search} />
             <Button color='warning' className='my-3 float-right'>Sélection champs</Button>
             <Table hover bordered responsive>
               <thead>
@@ -34,8 +44,10 @@ class Users extends Component {
                 </tr>
               </thead>
               <tbody>
+                {console.log(search)}
                 {
                   users
+                    .filter(user => user.name.includes(search))
                     .sort((a, b) =>{
                       if (a.name > b.name) return 1;
                       if (a.name < b.name) return -1;
