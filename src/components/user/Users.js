@@ -30,11 +30,11 @@ class Users extends Component {
             <NavLink to='/new-user'>
               <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
             </NavLink>
-            <Input type='search' placeholder='Chercher un employé' name='search' onChange={this.search} />
             <Button color='warning' className='my-3 float-right'>Sélection champs</Button>
+            <Input type='search' placeholder='Chercher un employé' name='search' onChange={this.search} />
             <Table hover bordered responsive>
               <thead>
-                <tr>
+                <tr style={{textAlign: 'center'}}>
                   <th>#</th>
                   <th>Prénom</th>
                   <th>Nom</th>
@@ -44,10 +44,9 @@ class Users extends Component {
                 </tr>
               </thead>
               <tbody>
-                {console.log(search)}
                 {
                   users
-                    .filter(user => user.name.includes(search))
+                    .filter(user => user.name.toLowerCase().includes(search))
                     .sort((a, b) =>{
                       if (a.name > b.name) return 1;
                       if (a.name < b.name) return -1;
@@ -56,11 +55,24 @@ class Users extends Component {
                     .map((user, i) =>
                       <tr key={i}>
                         <th scope='row'>{i + 1}</th>
-                        <td>{user.name.split(' ')[0]}</td>
-                        <td>{user.name.split(' ')[1]}</td>
+                        <td>
+                          {
+                            user.name.split(' ')[0]
+                          }
+                        </td>
+                        <td>
+                          {
+                            user.name.split(' ')[1]
+                          }
+                        </td>
                         <td>{user.email}</td>
                         <td>{user.poste}</td>
                         <td>
+                          <NavLink to={`/user/${user.id}`} className='mr-2'>
+                            <Button color='info'>
+                              Voir profile
+                            </Button>
+                          </NavLink>
                           <NavLink to={`/user`} className='mr-2'>
                             <Button color='success'>
                               Edit

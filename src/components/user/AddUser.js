@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { addUser, clearUserFailure } from '../../actions/userAction';
 import { Container, Form, Label, Input, Button, FormGroup, FormFeedback } from 'reactstrap';
 
@@ -35,7 +36,7 @@ class AddUser extends Component {
     }
 
     let { name, email, poste, errors } = this.state
-    let newUser = { name, email, poste };
+    let newUser = { name, email, poste, absence: false };
     this.props.addUser(newUser);
 
     // console.log(this.props.user.errors.length);
@@ -65,6 +66,7 @@ class AddUser extends Component {
     }
     return (
       <Container>
+          <NavLink to='/'><Button outline color='info'>Retour à la liste</Button></NavLink>
           <Form className='py-3' onSubmit={this.handleSubmit} noValidate>
             <FormGroup>
               <Label for='name'>Name</Label>

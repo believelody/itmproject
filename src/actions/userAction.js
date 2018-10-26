@@ -21,9 +21,14 @@ const userFailure = errors => ({type: types.USER_FAIL, payload: errors});
 
 export const fetchAllUsers = () => dispatch => {
   userRef.on("value", snapshot => {
-    let i = 0;
-    let users = Object.values(snapshot.val());
-    for (let user in snapshot.val()) users[i].id = user;
+    // Another way to fill users array
+    // let i = 0;
+    // let users = Object.values(snapshot.val());
+    // for (let user in snapshot.val()) users[i].id = user;
+    let users = [];
+    snapshot.forEach(childSnapshot => {
+      users.push({id: childSnapshot.key, ...childSnapshot.val()});
+    });
     dispatch(fetchUserSuccess(users));
   });
 }
