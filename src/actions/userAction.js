@@ -12,14 +12,15 @@ export const userLoading = (isLoading = true) => ({
   payload: isLoading
 });
 
-export const fetchUserSuccess = data => ({
-  type: types.FETCH_USER_SUCCESS,
-  payload: data
-});
+// export const fetchUserSuccess = data => ({
+//   type: types.FETCH_USER_SUCCESS,
+//   payload: data
+// });
 
 const userFailure = errors => ({type: types.USER_FAIL, payload: errors});
 
 export const fetchAllUsers = () => dispatch => {
+  dispatch(userLoading());
   userRef.on("value", snapshot => {
     // Another way to fill users array
     // let i = 0;
@@ -29,12 +30,21 @@ export const fetchAllUsers = () => dispatch => {
     snapshot.forEach(childSnapshot => {
       users.push({id: childSnapshot.key, ...childSnapshot.val()});
     });
-    dispatch(fetchUserSuccess(users));
+    dispatch({
+      type: types.FETCH_ALL_USERS,
+      payload: users
+    });
   });
 }
 
-export const fetchOneUser = () => dispatch => {
-
+export const fetchOneUser = id => dispatch => {
+  dispatch(userLoading());
+  userRef.child(id).once('value', snapshot => {
+    dispatch({
+      type: types.FETCH_ONE_USER,
+      payload: {id: snapshot.key, ...snapshot.val()}
+    });
+  });
 }
 
 export const addUser = user => dispatch => {

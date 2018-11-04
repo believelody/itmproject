@@ -3,7 +3,8 @@ import * as types from '../types';
 const initialState = {
   loading: false,
   users: [],
-  errors: []
+  errors: [],
+  selectedUser: null
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -13,10 +14,16 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         loading: payload
       }
-    case types.FETCH_USER_SUCCESS:
+    case types.FETCH_ALL_USERS:
       return {
         ...state,
         users: payload,
+        loading: false
+      }
+    case types.FETCH_ONE_USER:
+      return {
+        ...state,
+        selectedUser: payload,
         loading: false
       }
     case types.USER_FAIL:

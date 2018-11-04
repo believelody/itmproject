@@ -4,6 +4,8 @@ import Footer from './layout/Footer';
 import Users from './user/Users';
 import AddUser from './user/AddUser';
 import UserDetail from './user/UserDetail';
+import UserList from './list/UserList';
+import UserTable from './table/UserTable';
 
 export {
   Header,
@@ -11,5 +13,7 @@ export {
   Footer,
   Users,
   AddUser,
-  UserDetail
+  UserDetail,
+  UserList,
+  UserTable
 };

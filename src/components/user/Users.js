@@ -3,13 +3,15 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
-import { Table, Button, Input } from 'reactstrap';
+import { Table, Button, Input, Alert } from 'reactstrap';
+import { UserTable, UserList } from '../Export';
 
 class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      toggleTable: true
     };
   }
 
@@ -19,8 +21,10 @@ class Users extends Component {
 
   search = ({target}) => this.setState({ search: target.value });
 
+  toggleDisplay = () => this.setState({ toggleTable: !this.state.toggleTable });
+
   render() {
-    const { search } = this.state;
+    const { search, toggleTable } = this.state;
     const { loading, users } = this.props.user;
     return (
       <div>
@@ -32,59 +36,19 @@ class Users extends Component {
             </NavLink>
             <Button color='warning' className='my-3 float-right'>Sélection champs</Button>
             <Input type='search' placeholder='Chercher un employé' name='search' onChange={this.search} />
-            <Table hover bordered responsive>
-              <thead>
-                <tr style={{textAlign: 'center'}}>
-                  <th>#</th>
-                  <th>Prénom</th>
-                  <th>Nom</th>
-                  <th>Email</th>
-                  <th>Poste</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  users
-                    .filter(user => user.name.toLowerCase().includes(search))
-                    .sort((a, b) =>{
-                      if (a.name > b.name) return 1;
-                      if (a.name < b.name) return -1;
-                      return 0;
-                    })
-                    .map((user, i) =>
-                      <tr key={i}>
-                        <th scope='row'>{i + 1}</th>
-                        <td>
-                          {
-                            user.name.split(' ')[0]
-                          }
-                        </td>
-                        <td>
-                          {
-                            user.name.split(' ')[1]
-                          }
-                        </td>
-                        <td>{user.email}</td>
-                        <td>{user.poste}</td>
-                        <td>
-                          <NavLink to={`/user/${user.id}`} className='mr-2'>
-                            <Button color='info'>
-                              Voir profile
-                            </Button>
-                          </NavLink>
-                          <NavLink to={`/user`} className='mr-2'>
-                            <Button color='success'>
-                              Edit
-                            </Button>
-                          </NavLink>
-                          <Button color='danger'>Delete</Button>
-                        </td>
-                      </tr>
-                    )
-                }
-              </tbody>
-            </Table>
+            <Alert color='dark' className='my-2 text-center'>Liste des employés</Alert>
+            {
+              window.screen.width >= 1024 && <Button className='my-2 float-right' onClick={this.toggleDisplay}>{toggleTable ? 'Liste' : 'Table'}</Button>
+            }
+            {
+              window.screen.width < 1024 && <UserList users={users} search={search} />
+            }
+            {
+              window.screen.width >= 1024 && toggleTable && <UserTable users={users} search={search} />
+            }
+            {
+              window.screen.width >= 1024 && !toggleTable && <UserList users={users} search={search} />
+            }
           </div>
         }
       </div>

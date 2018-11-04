@@ -1,0 +1,11 @@
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.user-item {
+  border: 1px solid blue;
+  max-width: 300px;
+}
