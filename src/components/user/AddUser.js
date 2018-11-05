@@ -61,9 +61,6 @@ class AddUser extends Component {
   render() {
     const { email, name, poste, errors } = this.state;
 
-    if (errors.length > 0) {
-      console.log(errors);
-    }
     return (
       <Container>
           <NavLink to='/'><Button outline color='info'>Retour à la liste</Button></NavLink>

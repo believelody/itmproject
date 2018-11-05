@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Table, Button } from 'reactstrap';
 
-const UserTable = ({users, search}) => {
+const UserTable = ({users, search, check}) => {
   return (
     <Table hover bordered responsive>
       <thead>
@@ -10,8 +10,12 @@ const UserTable = ({users, search}) => {
           <th>#</th>
           <th>Prénom</th>
           <th>Nom</th>
-          <th>Email</th>
-          <th>Poste</th>
+          {
+            !check.email && <th>Email</th>
+          }
+          {
+            !check.poste && <th>Poste</th>
+          }
           <th>Actions</th>
         </tr>
       </thead>
@@ -37,8 +41,8 @@ const UserTable = ({users, search}) => {
                     user.name.split(' ')[1]
                   }
                 </td>
-                <td>{user.email}</td>
-                <td>{user.poste}</td>
+                {!check.email && <td>{user.email}</td>}
+                {!check.poste && <td>{user.poste}</td>}
                 <td>
                   <NavLink to={`/user/${user.id}`} className='mr-2'>
                     <Button color='info'>
