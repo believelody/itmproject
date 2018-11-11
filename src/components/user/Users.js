@@ -44,7 +44,7 @@ class Users extends Component {
               <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
             </NavLink>
             {
-              toggleTable &&
+              window.screen.width >= 1024 && toggleTable &&
               <Dropdown
                 direction="left"
                 isOpen={filter}

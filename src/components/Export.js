@@ -7,6 +7,11 @@ import UserDetail from './user/UserDetail';
 import UserList from './list/UserList';
 import UserTable from './table/UserTable';
 import FilterFields from './form/FilterFields';
+import Desktop from './device-size/Desktop';
+import Mobile from './device-size/Mobile';
+import HeaderDesktop from './header-size/HeaderDesktop';
+import HeaderMobile from './header-size/HeaderMobile';
+import SideNav from './sidenav/SideNav';
 
 export {
   Header,
@@ -17,5 +22,10 @@ export {
   UserDetail,
   UserList,
   UserTable,
-  FilterFields
+  FilterFields,
+  Desktop,
+  Mobile,
+  HeaderDesktop,
+  HeaderMobile,
+  SideNav
 };
