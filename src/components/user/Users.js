@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
-import { Button, Input, Alert, Dropdown, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownToggle } from 'reactstrap';
+import { Button, Input, Header } from 'semantic-ui-react';
 import { UserTable, UserList, FilterFields } from '../Export';
 
 class Users extends Component {
@@ -41,7 +42,7 @@ class Users extends Component {
           !loading &&
           <div>
             <NavLink to='/new-user'>
-              <Button color='primary' className='my-3 float-left'>Ajouter un employé </Button>
+              <Button style={{marginTop: 10}} color='facebook' content='Ajouté un employé' />
             </NavLink>
             {
               window.screen.width >= 1024 && toggleTable &&
@@ -59,10 +60,17 @@ class Users extends Component {
                 />
               </Dropdown>
             }
-            <Input type='search' placeholder='Chercher un employé' name='search' onChange={this.search} />
-            <Alert color='dark' className='my-2 text-center'>Liste des employés</Alert>
+            <Input
+              style={{marginTop: 10}}
+              fluid
+              icon='search'
+              placeholder='Chercher un employé'
+              name='search'
+              onChange={this.search}
+            />
+            <Header content='Liste des employés' textAlign='center' />
             {
-              window.screen.width >= 1024 && <Button className='my-2 float-right' onClick={this.toggleDisplay}>{toggleTable ? 'Liste' : 'Table'}</Button>
+              window.screen.width >= 1024 && <Button style={{marginBottom: 10}} floated='right' onClick={this.toggleDisplay}>{toggleTable ? 'Liste' : 'Table'}</Button>
             }
             {
               window.screen.width < 1024 && <UserList users={users} search={search} />
