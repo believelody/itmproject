@@ -46,19 +46,21 @@ class Users extends Component {
             </NavLink>
             {
               window.screen.width >= 1024 && toggleTable &&
-              <Dropdown
-                direction="left"
-                isOpen={filter}
-                className='my-3 float-right'
-                toggle={this.toggleFilter}
+              <Button
+                floated='right'
+                color='yellow'
+                compact
+                style={{
+                  marginTop: 10,
+                  padding: 0
+                }}
               >
-                <DropdownToggle color='warning' caret>Sélection champs</DropdownToggle>
                 <FilterFields
                   check_email={check_email}
                   check_poste={check_poste}
                   handleCheck={this.handleCheck}
                 />
-              </Dropdown>
+              </Button>
             }
             <Input
               style={{marginTop: 10}}
@@ -103,3 +105,17 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, { fetchAllUsers })(Users);
+
+// <Dropdown
+//   direction="left"
+//   isOpen={filter}
+//   className='my-3 float-right'
+//   toggle={this.toggleFilter}
+// >
+//   <DropdownToggle color='warning' caret>Sélection champs</DropdownToggle>
+//   <FilterFields
+//     check_email={check_email}
+//     check_poste={check_poste}
+//     handleCheck={this.handleCheck}
+//   />
+// </Dropdown>
