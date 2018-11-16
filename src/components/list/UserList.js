@@ -57,7 +57,7 @@ class UserList extends React.Component {
                           Voir profile
                         </Button>
                       </NavLink>
-                      <NavLink to={`/new-user/${user.id}`}>
+                      <NavLink to={`/edit-user/${user.id}`}>
                         <Button basic color='green'>
                           Edit
                         </Button>

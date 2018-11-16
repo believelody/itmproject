@@ -98,10 +98,10 @@ class AddUser extends Component {
   render() {
     const { email, name, poste, sexe, errors } = this.state;
     const { loading, selectedUser } = this.props.user;
-
+    console.log(this.state);
     return (
       <Container>
-          <NavLink to='/'><Button basic color='blue'>Revenir en arrière</Button></NavLink>
+          <Button onClick={() => this.props.history.goBack()} basic color='blue'>Revenir en arrière</Button>
           <Form style={{padding: '10px 0'}} onSubmit={this.handleSubmit} noValidate>
             <Form.Group widths='equal'>
               <Form.Field

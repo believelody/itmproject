@@ -93,12 +93,12 @@ class UserDetail extends Component {
                 <Card.Header>
                   <Dropdown text='Options' className='float-right'>
                     <Dropdown.Menu>
-                      <Dropdown.Item>
-                        <NavLink to='/new_user'>Edit</NavLink>
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={this.sendID}>
-                        Supprimer
-                      </Dropdown.Item>
+                      <Dropdown.Item
+                        as={NavLink}
+                        to={`/edit-user/${this.props.match.params.user_id}`}
+                        content='Edit'
+                      />
+                      <Dropdown.Item onClick={this.sendID} content='Supprimer' />
                     </Dropdown.Menu>
                   </Dropdown>
                 </Card.Header>

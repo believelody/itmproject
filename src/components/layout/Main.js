@@ -10,7 +10,8 @@ class Main extends Component {
       <main>
         <Container>
           <Route exact path='/' component={Users} />
-          <Route exact path='/new-user/:user_id' component={AddUser} />
+          <Route exact path='/new-user' component={AddUser} />
+          <Route exact path='/edit-user/:user_id' component={AddUser} />
           <Route exact path='/user/:user_id' component={UserDetail} />
         </Container>
       </main>

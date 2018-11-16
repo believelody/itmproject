@@ -79,7 +79,7 @@ class UserTable extends React.Component {
                           Voir profile
                         </Button>
                       </NavLink>
-                      <NavLink to={`/new-user/${user.id}`} className='mr-2'>
+                      <NavLink to={`/edit-user/${user.id}`} className='mr-2'>
                         <Button color="green">
                           Edit
                         </Button>
