@@ -1,25 +1,25 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, Image } from 'semantic-ui-react';
 
 const UserTable = ({users, search, check}) => {
   return (
-    <Table hover bordered responsive>
-      <thead>
-        <tr style={{textAlign: 'center'}}>
-          <th>#</th>
-          <th>Prénom</th>
-          <th>Nom</th>
+    <Table style={{margin: '0 auto'}} collapsing selectable textAlign='center'>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>#</Table.HeaderCell>
+          <Table.HeaderCell>Prénom</Table.HeaderCell>
+          <Table.HeaderCell>Nom</Table.HeaderCell>
           {
-            !check.email && <th>Email</th>
+            !check.email && <Table.HeaderCell>Email</Table.HeaderCell>
           }
           {
-            !check.poste && <th>Poste</th>
+            !check.poste && <Table.HeaderCell>Poste</Table.HeaderCell>
           }
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+          <Table.HeaderCell>Actions</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {
           users
             .filter(user => user.name.toLowerCase().includes(search))
@@ -29,37 +29,39 @@ const UserTable = ({users, search, check}) => {
               return 0;
             })
             .map((user, i) =>
-              <tr key={i}>
-                <th scope='row'>{i + 1}</th>
-                <td>
+              <Table.Row key={i}>
+                <Table.Cell>
+                  <Image avatar src={user.img || require('../../img/itm_avatar_user_male.png')} />
+                </Table.Cell>
+                <Table.Cell>
                   {
                     user.name.split(' ')[0]
                   }
-                </td>
-                <td>
+                </Table.Cell>
+                <Table.Cell>
                   {
                     user.name.split(' ')[1]
                   }
-                </td>
-                {!check.email && <td>{user.email}</td>}
-                {!check.poste && <td>{user.poste}</td>}
-                <td>
+                </Table.Cell>
+                {!check.email && <Table.Cell>{user.email}</Table.Cell>}
+                {!check.poste && <Table.Cell>{user.poste}</Table.Cell>}
+                <Table.Cell>
                   <NavLink to={`/user/${user.id}`} className='mr-2'>
-                    <Button color='info'>
+                    <Button color="blue">
                       Voir profile
                     </Button>
                   </NavLink>
                   <NavLink to={`/user`} className='mr-2'>
-                    <Button color='success'>
+                    <Button color="green">
                       Edit
                     </Button>
                   </NavLink>
-                  <Button color='danger'>Delete</Button>
-                </td>
-              </tr>
+                  <Button color="red">Delete</Button>
+                </Table.Cell>
+              </Table.Row>
             )
         }
-      </tbody>
+      </Table.Body>
     </Table>
   );
 }

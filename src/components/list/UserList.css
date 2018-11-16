@@ -7,5 +7,5 @@
 
 .user-item {
   border: 1px solid blue;
-  max-width: 300px;
+  min-width: 300px !important;
 }

@@ -47,9 +47,9 @@ export const fetchOneUser = id => dispatch => {
   });
 }
 
-export const addUser = user => dispatch => {
+export const addUser = (user, cb) => dispatch => {
   if (user.name === '') {
-    dispatch(userFailure({code: 'name', msg: 'Le champ Name est requis'}));
+    dispatch(userFailure({code: 'name', msg: 'Le champ Nom est requis'}));
   }
   if (user.email === '') {
     dispatch(userFailure({code: 'email', msg: 'Le champ Email est requis'}));
@@ -57,8 +57,11 @@ export const addUser = user => dispatch => {
   if (user.poste === '') {
     dispatch(userFailure({code: 'poste', msg: 'Le champ Poste est requis'}));
   }
-  if (user.name !== '' && user.email !== '' && user.poste !== '') {
-    userRef.push().set(user);
+  if (user.sexe === '') {
+    dispatch(userFailure({code: 'sexe', msg: 'Le champ Sexe est requis'}));
+  }
+  if (user.name !== '' && user.email !== '' && user.poste !== '' && user.sexe !== '') {
+    userRef.push().set(user).then(() => cb.goBack());
   }
 }
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
 import { Dropdown, DropdownToggle } from 'reactstrap';
-import { Button, Input, Header } from 'semantic-ui-react';
+import { Button, Input, Header, Checkbox } from 'semantic-ui-react';
 import { UserTable, UserList, FilterFields } from '../Export';
 
 class Users extends Component {
@@ -72,7 +72,15 @@ class Users extends Component {
             />
             <Header content='Liste des employés' textAlign='center' />
             {
-              window.screen.width >= 1024 && <Button style={{marginBottom: 10}} floated='right' onClick={this.toggleDisplay}>{toggleTable ? 'Liste' : 'Table'}</Button>
+              window.screen.width >= 1024 &&
+              <Checkbox
+                label={toggleTable ? 'Liste' : 'Table'}
+                toggle
+                style={{marginBottom: 10}}
+                floated='right'
+                onChange={this.toggleDisplay}
+                checked={toggleTable}
+              />
             }
             {
               window.screen.width < 1024 && <UserList users={users} search={search} />
