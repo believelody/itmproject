@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
 import { Dropdown, DropdownToggle } from 'reactstrap';
-import { Button, Input, Header, Checkbox } from 'semantic-ui-react';
+import { Button, Input, Header, Checkbox, Loader } from 'semantic-ui-react';
 import { UserTable, UserList, FilterFields } from '../Export';
 
 class Users extends Component {
@@ -38,6 +38,9 @@ class Users extends Component {
 
     return (
       <div>
+        {
+          loading && <Loader inline='centered' text='Chargement ...' />
+        }
         {
           !loading &&
           <div>

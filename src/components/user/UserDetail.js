@@ -4,24 +4,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchOneUser } from '../../actions/userAction';
 import {
-  Row,
-  Col,
-  Container,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardHeader,
-  CardFooter,
-  Button,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Dropdown,
+  // Row,
+  // Col,
+  // Container,
+  // Card,
+  // CardImg,
+  // CardText,
+  // CardBody,
+  // CardTitle,
+  // CardSubtitle,
+  // CardHeader,
+  // CardFooter,
+  // Button,
+  // DropdownItem,
+  // DropdownMenu,
+  // DropdownToggle,
+  // Dropdown,
   Collapse
 } from 'reactstrap';
+
+import { Card, Dropdown, Button, Image, Accordion, Icon, Container, Loader } from 'semantic-ui-react';
 
 import './User.css';
 
@@ -79,53 +81,55 @@ class UserDetail extends Component {
     return (
       <Container>
         <NavLink to='/'>
-          <Button outline color='dark' className='my-3'>Retour à la liste</Button>
+          <Button style={{marginTop: 10}} basic color='black'>Retour à la liste</Button>
         </NavLink>
         {
+          loading && <Loader active inline='centered' size='large' />
+        }
+        {
           !loading && selectedUser &&
-          <div>
-            <Card outline color='dark' className='user-detail mx-auto'>
-              <CardHeader>
-                <h4 className='float-left text-capitalize'>{selectedUser.name}</h4>
-                <Dropdown className='float-right' isOpen={isOpen} toggle={this.toggle}>
-                  <DropdownToggle caret>
-                    Options
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem>
-                      <NavLink to='/new_user'>Edit</NavLink>
-                    </DropdownItem>
-                    <DropdownItem className='text-danger'>
-                      Supprimer
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </CardHeader>
-              <CardImg
-                top
-                width='100%'
+          <div style={{margin: "20px 0"}}>
+            <Card centered fluid className='user-detail'>
+              <Card.Content>
+                <Card.Header>
+                  <Dropdown text='Options' className='float-right'>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        <NavLink to='/new_user'>Edit</NavLink>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        Supprimer
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Card.Header>
+              </Card.Content>
+              <Image
                 src={selectedUser.img || require('../../img/itm_avatar_user_male.png')}
                 alt={selectedUser.name}
               />
-              <CardBody>
-                <CardSubtitle className='d-flex justify-content-around flex-wrap'>
+              <Card.Content>
+                <Card.Header content={selectedUser.name} />
+                <Card.Meta>
+                  {selectedUser.email}
+                </Card.Meta>
+                <Card.Description className='d-flex justify-content-around flex-wrap'>
                   <div className='p-2'>Poste: {selectedUser.poste}</div>
                   <div className='p-2'>Absence: 0</div>
                   <div className='p-2'>Cumul heure: 0</div>
-                </CardSubtitle>
-                <CardText>
-                  {selectedUser.email}
-                </CardText>
-              </CardBody>
-              <CardFooter>
-                <Button outline color='dark' className='mx-auto'>Contacter</Button>
-                <Button color='light' className='mx-1' onClick={(this.toggleCollapsePresence)}>
-                  Historique présence
-                </Button>
-                <Button color='light' className='mx-1' onClick={this.toggleCollapseAbsence}>
-                  {'Historique des justificatifs d\'absence'}
-                </Button>
-              </CardFooter>
+                </Card.Description>
+              </Card.Content>
+              <Card.Content extra>
+                <div className='ui three buttons'>
+                  <Button basic color='black' className='mx-auto'>Contacter</Button>
+                  <Button color='grey' className='mx-1' onClick={(this.toggleCollapsePresence)}>
+                    Historique présence
+                  </Button>
+                  <Button color='grey' className='mx-1' onClick={this.toggleCollapseAbsence}>
+                    {'Historique des justificatifs d\'absence'}
+                  </Button>
+                </div>
+              </Card.Content>
             </Card>
             <Collapse isOpen={collapse}>
               {
