@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { addUser, clearUserFailure } from '../../actions/userAction';
+import { addUser, clearUserFailure, fetchOneUser } from '../../actions/userAction';
 // import { Container, Form, Label, Form.Input, Button, Form.Group, FormFeedback } from 'reactstrap';
 import { Form, Button, Container, Message, Input, Select } from 'semantic-ui-react';
 
@@ -20,12 +20,23 @@ class AddUser extends Component {
   }
 
   componentDidMount() {
-
+    if (this.props.match.params.user_id) {
+      this.props.fetchOneUser(this.props.match.params.user_id);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user && nextProps.user.errors.length > 0) {
       this.setState({ errors: nextProps.user.errors, visible: true });
+    }
+
+    if (nextProps.user && nextProps.user.selectedUser) {
+      this.setState({
+        name: nextProps.user.selectedUser.name,
+        email: nextProps.user.selectedUser.email,
+        poste: nextProps.user.selectedUser.poste,
+        sexe: nextProps.user.selectedUser.sexe
+      });
     }
   }
 
@@ -55,7 +66,7 @@ class AddUser extends Component {
       email: errors.find(err => err.code === 'email') ? '' : email,
       name: errors.find(err => err.code === 'name') ? '' : name,
       poste: errors.find(err => err.code === 'poste') ? '' : poste,
-      poste: errors.find(err => err.code === 'sexe') ? '' : sexe,
+      sexe: errors.find(err => err.code === 'sexe') ? '' : sexe,
       errors: []
     });
   }
@@ -86,6 +97,7 @@ class AddUser extends Component {
 
   render() {
     const { email, name, poste, sexe, errors } = this.state;
+    const { loading, selectedUser } = this.props.user;
 
     return (
       <Container>
@@ -128,6 +140,7 @@ class AddUser extends Component {
               <Form.Field>
                 <Select
                   placeholder='Choisissez un poste'
+                  text={poste || ''}
                   id='poste'
                   error={(errors.length > 0 && errors.find(err => err.code === 'poste')) ? true : false}
                   onChange={(e, {value}) => this.setState({ poste: value})}
@@ -145,6 +158,7 @@ class AddUser extends Component {
               <Form.Field>
                 <Select
                   placeholder='Sexe'
+                  // text={sexe || ''}
                   id='sexe'
                   onChange={(e, {value}) => this.setState({ sexe: value})}
                   onFocus={(e) => this.clearInput(e)}
@@ -166,8 +180,14 @@ class AddUser extends Component {
   }
 }
 
+AddUser.propTypes = {
+  addUser: PropTypes.func.isRequired,
+  clearUserFailure: PropTypes.func.isRequired,
+  fetchOneUser: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, { addUser, clearUserFailure })(AddUser);
+export default connect(mapStateToProps, { addUser, clearUserFailure, fetchOneUser })(AddUser);

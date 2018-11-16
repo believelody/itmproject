@@ -1,7 +1,6 @@
 import * as types from '../types';
 import firebase from 'firebase';
 import firebaseConfig from '../firebaseConfig';
-import users from '../db/users';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -61,7 +60,7 @@ export const addUser = (user, cb) => dispatch => {
     dispatch(userFailure({code: 'sexe', msg: 'Le champ Sexe est requis'}));
   }
   if (user.name !== '' && user.email !== '' && user.poste !== '' && user.sexe !== '') {
-    userRef.push().set(user).then(() => cb.goBack());
+    userRef.push().put(user).then(() => cb.goBack());
   }
 }
 

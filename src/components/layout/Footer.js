@@ -1,5 +1,4 @@
 import React from 'react';
-import { Alert } from 'reactstrap';
 import { Segment } from 'semantic-ui-react';
 
 const footerStyle = {

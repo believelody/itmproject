@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import { DropdownMenu, DropdownItem, FormGroup, Input, Label } from 'reactstrap';
-import { Dropdown, Input, Label, Form } from 'semantic-ui-react';
+import { Dropdown, Input } from 'semantic-ui-react';
 
 const FilterFields = ({ check_email, check_poste, handleCheck }) => {
     return (

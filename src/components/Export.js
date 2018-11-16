@@ -12,6 +12,7 @@ import Mobile from './device-size/Mobile';
 import HeaderDesktop from './header-size/HeaderDesktop';
 import HeaderMobile from './header-size/HeaderMobile';
 import SideNav from './sidenav/SideNav';
+import ConfirmAction from './confirm/ConfirmAction';
 
 export {
   Header,
@@ -27,5 +28,6 @@ export {
   Mobile,
   HeaderDesktop,
   HeaderMobile,
-  SideNav
+  SideNav,
+  ConfirmAction
 };

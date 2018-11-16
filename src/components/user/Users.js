@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
-import { Dropdown, DropdownToggle } from 'reactstrap';
-import { Button, Input, Header, Checkbox, Loader } from 'semantic-ui-react';
+// import { Dropdown, DropdownToggle } from 'reactstrap';
+import { Button, Input, Header, Checkbox, Loader, Icon } from 'semantic-ui-react';
 import { UserTable, UserList, FilterFields } from '../Export';
 
 class Users extends Component {
@@ -33,7 +33,7 @@ class Users extends Component {
     this.setState((prevState) => ({ [target.name]: target.checked }));
 
   render() {
-    const { search, toggleTable, filter, check_email, check_poste } = this.state;
+    const { search, toggleTable, check_email, check_poste } = this.state;
     const { loading, users } = this.props.user;
 
     return (
@@ -45,7 +45,7 @@ class Users extends Component {
           !loading &&
           <div>
             <NavLink to='/new-user'>
-              <Button style={{marginTop: 10}} color='facebook' content='Ajouté un employé' />
+              <Button icon='add user' style={{marginTop: 10}} color='facebook' content='Ajouté un employé' />
             </NavLink>
             {
               window.screen.width >= 1024 && toggleTable &&
@@ -97,7 +97,11 @@ class Users extends Component {
               />
             }
             {
-              window.screen.width >= 1024 && !toggleTable && <UserList users={users} search={search} />
+              window.screen.width >= 1024 && !toggleTable &&
+              <UserList
+                users={users}
+                search={search}
+              />
             }
           </div>
         }

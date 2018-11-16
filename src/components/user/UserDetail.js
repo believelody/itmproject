@@ -2,29 +2,10 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchOneUser } from '../../actions/userAction';
-import {
-  // Row,
-  // Col,
-  // Container,
-  // Card,
-  // CardImg,
-  // CardText,
-  // CardBody,
-  // CardTitle,
-  // CardSubtitle,
-  // CardHeader,
-  // CardFooter,
-  // Button,
-  // DropdownItem,
-  // DropdownMenu,
-  // DropdownToggle,
-  // Dropdown,
-  Collapse
-} from 'reactstrap';
-
-import { Card, Dropdown, Button, Image, Accordion, Icon, Container, Loader } from 'semantic-ui-react';
-
+import { fetchOneUser, deleteUser } from '../../actions/userAction';
+import { Collapse } from 'reactstrap';
+import { Card, Dropdown, Button, Image, Icon, Container, Loader } from 'semantic-ui-react';
+import { ConfirmAction } from '../Export';
 import './User.css';
 
 class UserDetail extends Component {
@@ -34,9 +15,12 @@ class UserDetail extends Component {
       isOpen: false,
       collapsePresence: false,
       collapseAbsence: false,
-      collapse: false
+      collapse: false,
+      id: null,
+      openConfirm: false
     };
   }
+
   componentDidMount() {
     if (this.props.match.params.user_id) {
       this.props.fetchOneUser(this.props.match.params.user_id);
@@ -46,6 +30,10 @@ class UserDetail extends Component {
   componentWillReceiveProps(nextProps) {
 
   }
+
+  sendID = () => this.setState({ id: this.props.match.params.user_id, openConfirm: true });
+
+  handleConfirmAction = openConfirm => this.setState({ openConfirm });
 
   toggle = () => this.setState(prevState => ({ isOpen: !prevState.isOpen }));
 
@@ -76,7 +64,7 @@ class UserDetail extends Component {
   }
 
   render() {
-    const { isOpen, collapseAbsence, collapsePresence, collapse } = this.state;
+    const { collapseAbsence, collapsePresence, collapse, openConfirm, id } = this.state;
     const { loading, selectedUser } = this.props.user;
     return (
       <Container>
@@ -89,6 +77,17 @@ class UserDetail extends Component {
         {
           !loading && selectedUser &&
           <div style={{margin: "20px 0"}}>
+            <ConfirmAction
+              open={openConfirm}
+              id={id}
+              action={this.props.deleteUser}
+              handleConfirmAction={this.handleConfirmAction}
+              header='Suppression'
+              content={`Voulez vraiment effectuer cette action? Vous ne pourrez plus revenir en arrière`}
+              cancelButton='Annuler'
+              confirmButton='Supprimer'
+              history={this.props.history}
+            />
             <Card centered fluid className='user-detail'>
               <Card.Content>
                 <Card.Header>
@@ -97,7 +96,7 @@ class UserDetail extends Component {
                       <Dropdown.Item>
                         <NavLink to='/new_user'>Edit</NavLink>
                       </Dropdown.Item>
-                      <Dropdown.Item>
+                      <Dropdown.Item onClick={this.sendID}>
                         Supprimer
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -120,15 +119,32 @@ class UserDetail extends Component {
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <div className='ui three buttons'>
-                  <Button basic color='black' className='mx-auto'>Contacter</Button>
-                  <Button color='grey' className='mx-1' onClick={(this.toggleCollapsePresence)}>
-                    Historique présence
-                  </Button>
-                  <Button color='grey' className='mx-1' onClick={this.toggleCollapseAbsence}>
-                    {'Historique des justificatifs d\'absence'}
-                  </Button>
-                </div>
+                {
+                  window.screen.width >= 1024 &&
+                  <div className='ui three buttons'>
+                    <Button basic color='black' className='mx-auto'>Contacter</Button>
+                    <Button color='grey' className='mx-1' onClick={(this.toggleCollapsePresence)}>
+                      Historique présence
+                    </Button>
+                    <Button color='grey' className='mx-1' onClick={this.toggleCollapseAbsence}>
+                      {'Historique des justificatifs d\'absence'}
+                    </Button>
+                  </div>
+                }
+                {
+                  window.screen.width < 1024 &&
+                  <div className='ui three buttons'>
+                    <Button basic color='black' className='mx-auto'>
+                      <Icon name="send" /> Contacter
+                    </Button>
+                    <Button color='grey' className='mx-1' onClick={(this.toggleCollapsePresence)}>
+                      <Icon name="history" /> Présence
+                    </Button>
+                    <Button color='grey' className='mx-1' onClick={this.toggleCollapseAbsence}>
+                      <Icon name="history" /> Absence
+                    </Button>
+                  </div>
+                }
               </Card.Content>
             </Card>
             <Collapse isOpen={collapse}>
@@ -163,10 +179,11 @@ class UserDetail extends Component {
 
 UserDetail.propTypes = {
   user: PropTypes.object.isRequired,
-  fetchOneUser: PropTypes.func.isRequired
+  fetchOneUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
 };
 
 // Equivalent to const mapStateToProps = state => ({ user: state.user });
 const mapStateToProps = ({user}) => ({user});
 
-export default connect(mapStateToProps, { fetchOneUser })(UserDetail);
+export default connect(mapStateToProps, { fetchOneUser, deleteUser })(UserDetail);
