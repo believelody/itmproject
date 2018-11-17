@@ -6,3 +6,7 @@ export const ADD_USER = 'ADD_USER';
 export const DELETE_USER = 'DELETE_USER';
 export const USER_FAIL = 'USER_FAIL';
 export const CLEAR_USER_FAILURE = 'CLEAR_USER_FAILURE';
+export const AD_LOADING = 'AD_LOADING';
+export const LOAD_AD_SUCCESS = 'LOAD_AD_SUCCESS';
+export const LAST_AD = 'LAST_AD';
+export const ALL_ADS = 'ALL_ADS';
