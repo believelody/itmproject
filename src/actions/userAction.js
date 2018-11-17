@@ -2,8 +2,6 @@ import * as types from '../types';
 import firebase from 'firebase';
 import firebaseConfig from '../firebaseConfig';
 
-firebase.initializeApp(firebaseConfig);
-
 const userRef = firebase.database().ref().child('User');
 
 export const userLoading = (isLoading = true) => ({

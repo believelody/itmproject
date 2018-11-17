@@ -15,7 +15,7 @@ import './Layout.css'
 // }
 
 const Header = ({handleClick}) => (
-  <div className='header-style'>
+  <div className='header-style gradient-background'>
     {
       window.screen.width >= 1024 && <HeaderDesktop />
     }

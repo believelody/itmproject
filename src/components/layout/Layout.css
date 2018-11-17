@@ -4,8 +4,12 @@
   height: 70px;
   z-index: 1;
   padding: 0;
-  background: rgba(0, 0, 0, .4);
-  border-radius: 4px;
+  position: sticky;
+  /* border-radius: 4px; */
+}
+
+.gradient-background {
+  background-image: linear-gradient(to right bottom, #3a7bd5, #3a6073) !important;
 }
 
 .header-mobile-btn {

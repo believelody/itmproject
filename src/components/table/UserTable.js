@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteUser } from '../../actions/userAction';
-import { Table, Button, Image } from 'semantic-ui-react';
+import { Table, Button, Image, Icon } from 'semantic-ui-react';
 import { ConfirmAction } from '../Export';
 
 class UserTable extends React.Component {
@@ -75,9 +75,7 @@ class UserTable extends React.Component {
                     {!check.poste && <Table.Cell>{user.poste}</Table.Cell>}
                     <Table.Cell>
                       <NavLink to={`/user/${user.id}`} className='mr-2'>
-                        <Button color="blue">
-                          Voir profile
-                        </Button>
+                        <Button color="blue" content='Voir profile' />
                       </NavLink>
                       <NavLink to={`/edit-user/${user.id}`} className='mr-2'>
                         <Button color="green">

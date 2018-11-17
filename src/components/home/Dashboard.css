@@ -1,0 +1,10 @@
+.stat-resume {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid red;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  align-items: baseline;
+  background-image: linear-gradient(to right bottom, #2C3E50, #FD746C) !important;
+}

@@ -45,7 +45,7 @@ class Users extends Component {
           !loading &&
           <div>
             <NavLink to='/new-user'>
-              <Button icon='add user' style={{marginTop: 10}} color='facebook' content='Ajouté un employé' />
+              <Button icon='add user' style={{marginTop: 10}} color='blue' content='Ajouté un employé' />
             </NavLink>
             {
               window.screen.width >= 1024 && toggleTable &&

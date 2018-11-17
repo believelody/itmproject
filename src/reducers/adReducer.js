@@ -2,7 +2,7 @@ import * as types from '../types';
 
 const initialState = {
   loading: false,
-  ads: [],
+  ads: null,
   selectedAd: null
 };
 
@@ -11,7 +11,7 @@ export default (state = initialState, { type, payload }) => {
     case types.LAST_AD:
 
       break;
-    case types.ALL_ADS:      
+    case types.ALL_ADS:
       return {
         ...state,
         ads: payload

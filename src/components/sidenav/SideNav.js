@@ -15,6 +15,20 @@ const SideNav = ({visible, handleClick, children}) => (
       <Menu.Item as={NavLink} onClick={() => handleClick(false)} exact to='/' header>
         Projet ITM
       </Menu.Item>
+      <Menu.Item
+        as={NavLink}
+        content='Statistique'
+        onClick={() => handleClick(false)}
+        exact
+        to='/statistic'
+      />
+      <Menu.Item
+        as={NavLink}
+        content='Gestion des employés'
+        onClick={() => handleClick(false)}
+        exact
+        to='/users'
+      />
       <Menu.Item>
         <Menu.Menu>
           <Menu.Item content='Options' header />

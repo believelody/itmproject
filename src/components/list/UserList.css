@@ -3,6 +3,8 @@
   flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
+  background-image: linear-gradient(to right bottom, #2C3E50, #FD746C) !important;
+  align-items: baseline;
 }
 
 .user-item {
