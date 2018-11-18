@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchOneUser, deleteUser } from '../../actions/userAction';
+import 'moment/locale/fr';
+import moment from 'moment';
+import Moment from 'react-moment';
 import { Collapse } from 'reactstrap';
 import { Card, Dropdown, Button, Image, Icon, Container, Loader } from 'semantic-ui-react';
 import { ConfirmAction } from '../Export';
@@ -68,9 +71,7 @@ class UserDetail extends Component {
     const { loading, selectedUser } = this.props.user;
     return (
       <Container>
-        <NavLink to='/'>
-          <Button style={{marginTop: 10}} basic color='black'>Retour à la liste</Button>
-        </NavLink>
+        <Button onClick={() => this.props.history.goBack()} style={{marginTop: 10}} basic color='black'>Retour à la liste</Button>
         {
           loading && <Loader active inline='centered' size='large' />
         }
@@ -105,17 +106,26 @@ class UserDetail extends Component {
               </Card.Content>
               <Image
                 src={selectedUser.img || require('../../img/itm_avatar_user_male.png')}
-                alt={selectedUser.name}
+                alt={selectedUser.idNFC}
               />
               <Card.Content>
-                <Card.Header content={selectedUser.name} />
+                <Card.Header content={`${selectedUser.prenom} ${selectedUser.nom}`} />
+                <Card.Header className='float-right'>
+                  <Moment locale='fr' from={selectedUser.naissance} ago />
+                </Card.Header>
                 <Card.Meta>
                   {selectedUser.email}
+                </Card.Meta>
+                <Card.Meta>
+                  {selectedUser.sexe === 'Femme' ? 'Née le' : 'Né le'} <Moment locale='fr' format="DD MMMM YYYY" date={selectedUser.naissance} />
                 </Card.Meta>
                 <Card.Description className='d-flex justify-content-around flex-wrap'>
                   <div className='p-2'>Poste: {selectedUser.poste}</div>
                   <div className='p-2'>Absence: 0</div>
                   <div className='p-2'>Cumul heure: 0</div>
+                </Card.Description>
+                <Card.Description className='d-flex justify-content-around flex-wrap'>
+                  <div className='p-2'>Adresse: {selectedUser.adresse} {selectedUser.ville} {selectedUser.cp}</div>
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>

@@ -19,7 +19,6 @@ class Dashboard extends Component {
 
   render() {
     const { loading, ads } = this.props.ad;
-    console.log(ads);
     return (
       <Container fluid className='container'>
         <Header

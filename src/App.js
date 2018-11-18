@@ -29,7 +29,7 @@ class App extends Component {
             ]}
           />
           <div className="app">
-          {
+            {
               window.screen.width >= 1024 && <Desktop />
             }
             {

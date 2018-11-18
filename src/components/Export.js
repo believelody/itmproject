@@ -16,6 +16,7 @@ import SideNav from './sidenav/SideNav';
 import ConfirmAction from './confirm/ConfirmAction';
 import StatItem from './statistic/StatItem';
 import Statistics from './statistic/Statistics';
+import ToastNotif from './toast/ToastNotif';
 
 export {
   Header,
@@ -35,5 +36,6 @@ export {
   SideNav,
   ConfirmAction,
   StatItem,
-  Statistics
+  Statistics,
+  ToastNotif
 };

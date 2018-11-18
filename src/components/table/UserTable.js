@@ -8,23 +8,23 @@ import { ConfirmAction } from '../Export';
 
 class UserTable extends React.Component {
   state = {
-    id: null,
+    user: null,
     openConfirm: false
   }
 
-  sendID = id => this.setState({ id, openConfirm: true });
+  sendID = user => this.setState({ user, openConfirm: true });
 
   handleConfirmAction = openConfirm => this.setState({ openConfirm });
 
   render() {
     const { users, search, check } = this.props;
-    const { id, openConfirm } = this.state;
+    const { user, openConfirm } = this.state;
 
     return (
       <div>
         <ConfirmAction
           open={openConfirm}
-          id={id}
+          user={user}
           action={this.props.deleteUser}
           handleConfirmAction={this.handleConfirmAction}
           header='Suppression'
@@ -50,10 +50,10 @@ class UserTable extends React.Component {
           <Table.Body>
             {
               users
-                .filter(user => user.name.toLowerCase().includes(search))
+                .filter(user => user.prenom.toLowerCase().includes(search) || user.nom.toLowerCase().includes(search))
                 .sort((a, b) =>{
-                  if (a.name > b.name) return 1;
-                  if (a.name < b.name) return -1;
+                  if (a.nom > b.nom) return 1;
+                  if (a.nom < b.nom) return -1;
                   return 0;
                 })
                 .map((user, i) =>
@@ -63,12 +63,12 @@ class UserTable extends React.Component {
                     </Table.Cell>
                     <Table.Cell>
                       {
-                        user.name.split(' ')[0]
+                        user.prenom
                       }
                     </Table.Cell>
                     <Table.Cell>
                       {
-                        user.name.split(' ')[1]
+                        user.nom
                       }
                     </Table.Cell>
                     {!check.email && <Table.Cell>{user.email}</Table.Cell>}
@@ -82,7 +82,7 @@ class UserTable extends React.Component {
                           Edit
                         </Button>
                       </NavLink>
-                      <Button onClick={() => this.sendID(user.id)} color="red">Delete</Button>
+                      <Button onClick={() => this.sendID(user)} color="red">Delete</Button>
                     </Table.Cell>
                   </Table.Row>
                 )

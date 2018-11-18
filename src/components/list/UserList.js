@@ -11,23 +11,23 @@ import './UserList.css';
 
 class UserList extends React.Component {
   state = {
-    id: null,
+    user: null,
     openConfirm: false
   }
 
-  sendID = id => this.setState({ id, openConfirm: true });
+  sendID = user => this.setState({ user, openConfirm: true });
 
   handleConfirmAction = openConfirm => this.setState({ openConfirm });
 
   render() {
     const {users, search} = this.props;
-    const { id, openConfirm } = this.state;
+    const { user, openConfirm } = this.state;
 
     return (
       <div>
         <ConfirmAction
           open={openConfirm}
-          id={id}
+          user={user}
           action={this.props.deleteUser}
           handleConfirmAction={this.handleConfirmAction}
           header='Suppression'
@@ -38,17 +38,17 @@ class UserList extends React.Component {
         <div className='user-list'>
           {
             users
-              .filter(user => user.name.toLowerCase().includes(search.toLowerCase()))
+              .filter(user => user.prenom.toLowerCase().includes(search.toLowerCase()) || user.nom.toLowerCase().includes(search.toLowerCase()))
               .sort((a, b) =>{
-                if (a.name > b.name) return 1;
-                if (a.name < b.name) return -1;
+                if (a.nom > b.nom) return 1;
+                if (a.nom < b.nom) return -1;
                 return 0;
               })
               .map((user, i) =>
                 <Card className='user-item' key={i}>
                   <Image src={user.img || require('../../img/itm_avatar_user_male.png')} />
                   <Card.Content>
-                    <Card.Header>{user.name}</Card.Header>
+                    <Card.Header>{user.prenom} {user.nom}</Card.Header>
                     <Card.Meta>{user.email}</Card.Meta>
                   </Card.Content>
                   <Card.Content extra>
@@ -62,7 +62,7 @@ class UserList extends React.Component {
                           Edit
                         </Button>
                       </NavLink>
-                      <Button onClick={() => this.sendID(user.id)} basic color='red'>
+                      <Button onClick={() => this.sendID(user)} basic color='red'>
                         Delete
                       </Button>
                   </Card.Content>

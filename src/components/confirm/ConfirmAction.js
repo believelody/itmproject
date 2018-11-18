@@ -11,7 +11,7 @@ export default class ConfirmAction extends Component {
       this.props.history.goBack();
     }
     // console.log(this.props.id);
-    this.props.action(this.props.id);
+    this.props.action(this.props.user);
     this.props.handleConfirmAction(false);
   }
 
