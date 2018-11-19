@@ -17,6 +17,7 @@ import ConfirmAction from './confirm/ConfirmAction';
 import StatItem from './statistic/StatItem';
 import Statistics from './statistic/Statistics';
 import ToastNotif from './toast/ToastNotif';
+import Login from './login/Login';
 
 export {
   Header,
@@ -37,5 +38,6 @@ export {
   ConfirmAction,
   StatItem,
   Statistics,
-  ToastNotif
+  ToastNotif,
+  Login
 };

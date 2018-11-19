@@ -8,13 +8,16 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.LAST_AD:
-
-      break;
+    case types.AD_LOADING:
+      return {
+        ...state,
+        loading: payload
+      };
     case types.ALL_ADS:
       return {
         ...state,
-        ads: payload
+        ads: payload,
+        loading: false
       };
     default:
       return state;

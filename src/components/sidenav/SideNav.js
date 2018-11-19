@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { logout } from '../../actions/authAction';
 import { Sidebar, Menu, Segment } from 'semantic-ui-react';
 
 const SideNav = ({visible, handleClick, children}) => (
@@ -40,7 +43,7 @@ const SideNav = ({visible, handleClick, children}) => (
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
-      <Menu.Item onClick={() => handleClick(false)}>
+      <Menu.Item onClick={() => this.props.logout(handleClick)}>
         Se déconnecter
       </Menu.Item>
     </Sidebar>
@@ -48,4 +51,8 @@ const SideNav = ({visible, handleClick, children}) => (
   </Sidebar.Pushable>
 );
 
-export default SideNav;
+SideNav.propTypes = {
+  logout: PropTypes.func.isRequired
+}
+
+export default connect(null, { logout })(SideNav);

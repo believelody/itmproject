@@ -1,0 +1,10 @@
+.wrapper {
+  background-image: linear-gradient(to right bottom, #4CA1AF, #C4E0E5);
+  height: 100%;
+}
+
+.login {
+  max-width: 600px;
+  min-height: 300px;
+  margin: 100px auto !important;
+}

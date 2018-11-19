@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { logout } from '../../actions/authAction';
 import { Menu, Dropdown } from 'semantic-ui-react'
 
 const HeaderDesktop = () =>
@@ -19,11 +22,15 @@ const HeaderDesktop = () =>
             <Dropdown.Item as={NavLink} exact to='/profile' text='Mon profile' />
             <Dropdown.Item as={NavLink} exact to='/settings' text='Paramètres' />
             <Dropdown.Divider />
-            <Dropdown.Item text='Se déconnecter' />
+            <Dropdown.Item onClick={this.props.logout()} text='Se déconnecter' />
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Item>
     </Menu.Menu>
   </Menu>
 
-export default HeaderDesktop;
+HeaderDesktop.propTypes = {
+  logout: PropTypes.func.isRequired
+}
+
+export default connect(null, { logout })(HeaderDesktop);
