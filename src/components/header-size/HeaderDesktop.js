@@ -5,7 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../../actions/authAction';
 import { Menu, Dropdown } from 'semantic-ui-react'
 
-const HeaderDesktop = () =>
+const HeaderDesktop = ({logout}) => {
+  return (
   <Menu style={{background: 'transparent', height: '100%'}}>
     <Menu.Item as={NavLink} exact to='/' header>
       <b>Projet ITM</b>
@@ -22,12 +23,13 @@ const HeaderDesktop = () =>
             <Dropdown.Item as={NavLink} exact to='/profile' text='Mon profile' />
             <Dropdown.Item as={NavLink} exact to='/settings' text='Paramètres' />
             <Dropdown.Divider />
-            <Dropdown.Item onClick={this.props.logout()} text='Se déconnecter' />
+            <Dropdown.Item onClick={logout} text='Se déconnecter' />
           </Dropdown.Menu>
         </Dropdown>
       </Menu.Item>
     </Menu.Menu>
-  </Menu>
+  </Menu>);
+}
 
 HeaderDesktop.propTypes = {
   logout: PropTypes.func.isRequired

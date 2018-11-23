@@ -3,11 +3,18 @@ import * as types from '../types';
 const initialState = {
   loading: false,
   user: null,
-  errors: []
+  errors: [],
+  isAuthenticated: false
 }
 
 export default (state = initialState, { type, payload}) => {
   switch (type) {
+    case types.AUTH_CHECK:
+      return {
+        ...state,
+        isAuthenticated: payload,
+        loading: false
+      }
     case types.CLEAR_AUTH_FAILURE:
       return {
         ...state,

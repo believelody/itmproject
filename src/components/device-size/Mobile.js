@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Sidebar } from 'semantic-ui-react';
 import { Main, Footer, SideNav, Header } from '../Export';
 

@@ -4,7 +4,7 @@ import { Main, Footer, Header } from '../Export';
 const Desktop = () => (
   <Fragment>
     <Header />
-    <Main />
+      <Main />
     <Footer />
   </Fragment>
 );

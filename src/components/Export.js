@@ -18,6 +18,7 @@ import StatItem from './statistic/StatItem';
 import Statistics from './statistic/Statistics';
 import ToastNotif from './toast/ToastNotif';
 import Login from './login/Login';
+import AuthRoute from './auth/AuthRoute';
 
 export {
   Header,
@@ -39,5 +40,6 @@ export {
   StatItem,
   Statistics,
   ToastNotif,
-  Login
+  Login,
+  AuthRoute
 };

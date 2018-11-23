@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { HeaderDesktop, HeaderMobile } from '../Export';
 
 import './Layout.css'
@@ -14,7 +15,7 @@ import './Layout.css'
 //   borderRadius: '4px'
 // }
 
-const Header = ({handleClick}) => (
+const Header = ({handleClick, auth}) => auth.isAuthenticated &&
   <div className='header-style gradient-background'>
     {
       window.screen.width >= 1024 && <HeaderDesktop />
@@ -23,6 +24,9 @@ const Header = ({handleClick}) => (
       window.screen.width < 1024 && <HeaderMobile handleClick={handleClick} />
     }
   </div>
-);
 
-export default Header;
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps, {})(Header);

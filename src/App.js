@@ -1,39 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Route, Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
-import fire from './firebaseConfig';
-import { Desktop, Mobile, Login } from './components/Export';
+import { Desktop, Mobile } from './components/Export';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {visible: false, user: null};
-  }
-
-  componentDidMount() {
-    this.authListener();
+    this.state = {visible: false};
   }
 
   handleButtonClick = visible => this.setState({ visible });
 
-  authListener = () => {
-    fire.auth().onAuthStateChanged(user => {
-      console.log(user);
-      if (user) {
-        this.setState({ user });
-        localStorage.setItem('user_token', user.uid);
-      }
-      else {
-        this.setState({ user: null });
-        localStorage.removeItem('user_token');
-      }
-    });
-  }
-
   render() {
-    const { visible, user } = this.state;
+    const { visible } = this.state;
     return (
       <BrowserRouter>
         <Fragment>
@@ -52,18 +32,10 @@ class App extends Component {
           />
           <div className="app">
             {
-              user &&
-              <Fragment>
-                {
-                  window.screen.width >= 1024 && <Desktop />
-                }
-                {
-                  window.screen.width < 1024 && <Mobile handleClick={this.handleButtonClick} visible={visible} />
-                }
-              </Fragment>
+              window.screen.width >= 1024 && <Desktop />
             }
             {
-              !user && <Route exact path='/login' component={Login} />
+              window.screen.width < 1024 && <Mobile handleClick={this.handleButtonClick} visible={visible} />
             }
           </div>
         </Fragment>

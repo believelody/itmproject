@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { register, login, clearAuthFailure } from '../../actions/authAction';
-import { Form, Input, Button, Message, Segment, Header } from 'semantic-ui-react';
+import { Form, Input, Button, Message, Segment, Header, Loader } from 'semantic-ui-react';
+import { Dashboard } from '../Export';
 import './Login.css';
 
 class Login extends React.Component {
@@ -17,7 +18,16 @@ class Login extends React.Component {
     }
   };
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      window.location.href = '/';
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      window.location.href = '/';
+    }
     if (nextProps.auth && nextProps.auth.errors.length > 0) {
       this.setState({ errors: nextProps.auth.errors, visible: true });
     }
@@ -69,55 +79,62 @@ class Login extends React.Component {
 
   render() {
     const { email, password, errors } = this.state;
+    const { loading } = this.props.auth;
     return (
-      <div className='wrapper'>
-        <Segment textAlign='center'>
-          <Header as='h2' content='Connectez-vous' />
-        </Segment>
-        <Segment textAlign='center' className='login'>
-          <Form onSubmit={this.handleSubmit} noValidate>
-            <Form.Group style={{paddingBottom: 20}}>
-              <Form.Field
-                width={16}
-                error={(errors.length > 0 && errors.find(err => err.code === 'email')) ? true : false}
-              >
-                <label>Email</label>
-                <Input
-                  name='email'
-                  type='text'
-                  value={email}
-                  onChange={this.handleChange}
-                  onFocus={this.clearInput}
-                  placeholder='exemple: john@doe.com'
-                  required
-                />
-                { this.validationFeedBack(errors, 'email') }
-              </Form.Field>
-            </Form.Group>
+      <Fragment>
+      { loading && <Loader content='Chargement...' /> }
+      {
+        !loading &&
+        <div className='wrapper'>
+            <Segment textAlign='center'>
+              <Header as='h2' content='Connectez-vous' />
+            </Segment>
+            <Segment textAlign='center' className='login'>
+              <Form onSubmit={this.handleSubmit} noValidate>
+                <Form.Group style={{paddingBottom: 20}}>
+                  <Form.Field
+                    width={16}
+                    error={(errors.length > 0 && errors.find(err => err.code === 'email')) ? true : false}
+                  >
+                    <label>Email</label>
+                    <Input
+                      name='email'
+                      type='text'
+                      value={email}
+                      onChange={this.handleChange}
+                      onFocus={this.clearInput}
+                      placeholder='exemple: john@doe.com'
+                      required
+                    />
+                    { this.validationFeedBack(errors, 'email') }
+                  </Form.Field>
+                </Form.Group>
 
-            <Form.Group style={{paddingBottom: 20}}>
-              <Form.Field
-                width={16}
-                error={(errors.length > 0 && errors.find(err => err.code === 'password')) ? true : false}
-              >
-                <label>Mot de passe</label>
-                <Input
-                  name='password'
-                  type='password'
-                  value={password}
-                  onChange={this.handleChange}
-                  onFocus={this.clearInput}
-                  placeholder='Entrez votre mot de passe'
-                  required
-                />
-                { this.validationFeedBack(errors, 'password') }
-              </Form.Field>
-            </Form.Group>
-            <Button color='vk' content='Se connecter' />
-            { this.validationFeedBack(errors, 'authentification') }
-          </Form>
-        </Segment>
-      </div>
+                <Form.Group style={{paddingBottom: 20}}>
+                  <Form.Field
+                    width={16}
+                    error={(errors.length > 0 && errors.find(err => err.code === 'password')) ? true : false}
+                  >
+                    <label>Mot de passe</label>
+                    <Input
+                      name='password'
+                      type='password'
+                      value={password}
+                      onChange={this.handleChange}
+                      onFocus={this.clearInput}
+                      placeholder='Entrez votre mot de passe'
+                      required
+                    />
+                    { this.validationFeedBack(errors, 'password') }
+                  </Form.Field>
+                </Form.Group>
+                <Button color='vk' content='Se connecter' />
+                { this.validationFeedBack(errors, 'authentification') }
+              </Form>
+            </Segment>
+        </div>
+      }
+      </Fragment>
     )
   }
 }

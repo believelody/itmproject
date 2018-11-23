@@ -15,3 +15,4 @@ export const AUTH_LOADING = 'AUTH_LOADING';
 export const CLEAR_AUTH_FAILURE = 'CLEAR_AUTH_FAILURE';
 export const AUTH_FAILED = 'AUTH_FAILED';
 export const CHECK_AUTH_FAILED = 'CHECK_AUTH_FAILED';
+export const AUTH_CHECK = 'AUTH_CHECK';
