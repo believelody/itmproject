@@ -19,6 +19,9 @@ import Statistics from './statistic/Statistics';
 import ToastNotif from './toast/ToastNotif';
 import Login from './login/Login';
 import AuthRoute from './auth/AuthRoute';
+import Settings from './settings/Settings';
+import Ads from './ads/Ads';
+import NewAd from './form/NewAd';
 
 export {
   Header,
@@ -41,5 +44,8 @@ export {
   Statistics,
   ToastNotif,
   Login,
-  AuthRoute
+  AuthRoute,
+  Settings,
+  Ads,
+  NewAd
 };

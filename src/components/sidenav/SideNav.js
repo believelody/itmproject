@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../../actions/authAction';
 import { Sidebar, Menu, Segment } from 'semantic-ui-react';
 
-const SideNav = ({visible, handleClick, children}) => (
+const SideNav = ({visible, handleClick, children, logout}) => (
   <Sidebar.Pushable as={Segment}>
     <Sidebar
       as={Menu}
@@ -43,7 +43,7 @@ const SideNav = ({visible, handleClick, children}) => (
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
-      <Menu.Item onClick={() => this.props.logout(handleClick)}>
+      <Menu.Item onClick={logout}>
         Se déconnecter
       </Menu.Item>
     </Sidebar>

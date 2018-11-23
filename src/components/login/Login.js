@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { register, login, clearAuthFailure } from '../../actions/authAction';
+import { register, login, clearAuthFailure, authListener } from '../../actions/authAction';
 import { Form, Input, Button, Message, Segment, Header, Loader } from 'semantic-ui-react';
 import { Dashboard } from '../Export';
 import './Login.css';
@@ -19,9 +19,7 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      window.location.href = '/';
-    }
+    this.props.authListener();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -148,4 +146,4 @@ Login.propTypes = {
 
 const mapStateToProps = state => ({ auth: state.auth });
 
-export default connect(mapStateToProps, { register, login, clearAuthFailure })(Login);
+export default connect(mapStateToProps, { register, login, clearAuthFailure, authListener })(Login);

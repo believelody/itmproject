@@ -2,12 +2,20 @@ import * as types from '../types';
 
 const initialState = {
   loading: false,
-  ads: null,
-  selectedAd: null
+  ads: [],
+  selectedAd: null,
+  errors: []
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case types.AD_ERRORS:
+    console.log(payload);
+      return {
+        ...state,
+        errors: [...state.errors, payload],
+        loading: false
+      }
     case types.AD_LOADING:
       return {
         ...state,

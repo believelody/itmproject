@@ -85,7 +85,6 @@ export const logout = () => dispatch => fireAuth.signOut()
     type: types.AUTHENTICATED,
     payload: null
   });
-  // window.location.href = '/login';
 });
 
 export const clearAuthFailure = () => ({ type: types.CLEAR_AUTH_FAILURE });

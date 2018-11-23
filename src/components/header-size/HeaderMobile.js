@@ -5,8 +5,8 @@ const HeaderMobile = ({handleClick}) =>
   <Button
     className='header-mobile-btn'
     color='grey'
-    inverted o
-    nClick={() => handleClick(true)}
+    inverted
+    onClick={() => handleClick(true)}
     icon
   >
     <Icon name='bars' />
