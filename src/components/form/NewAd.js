@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addAd, clearAdFailure } from '../../actions/adAction';
+import { addAd, clearAdFailure, editAd } from '../../actions/adAction';
 import { Modal, Button, Form, Message, Input, TextArea } from 'semantic-ui-react';
 
 class NewAd extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
       title: '',
       text: '',
       visible: false,
@@ -16,7 +15,32 @@ class NewAd extends Component {
     }
   }
 
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.selectedAd && (nextProps.selectedAd.title !== prevState.title || nextProps.selectedAd.text !== prevState.text)) {
+  //     return {
+  //       title: nextProps.selectedAd.title || '',
+  //       text: nextProps.selectedAd.text || ''
+  //     }
+  //   }
+  //   if (nextProps.ad && nextProps.ad.errors.length > 0 && nextProps.ad.errors.length !== prevState.errors.length) {
+  //     return { errors: nextProps.ad.errors, visible: true };
+  //   }
+  //   return null;
+  // }
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedAd) {
+      this.setState({
+        title: nextProps.selectedAd.title,
+        text: nextProps.selectedAd.text
+      });
+    }
+    else {
+      this.setState({
+        title: '',
+        text: ''
+      });
+    }
     if (nextProps.ad && nextProps.ad.errors.length > 0) {
       this.setState({ errors: nextProps.ad.errors, visible: true });
     }
@@ -54,9 +78,13 @@ class NewAd extends Component {
 
   handleChange = (e, {name, value}) => this.setState({ [name]: value});
 
-  open = () => this.setState({ open: true });
+  open = () => this.props.openModal(true);
 
-  close = () => this.setState({ open: false, visible: false, errors: [] });
+  close = () => {
+    this.setState({ visible: false, errors: [], title: '', text: '' });
+    this.props.clearAdFailure();
+    this.props.openModal(false);
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -67,18 +95,25 @@ class NewAd extends Component {
       this.props.clearAdFailure();
     }
 
-    this.props.addAd(data);
+    if (this.props.selectedAd) {
+      this.props.editAd(this.props.selectedAd, data)
+    }
+    else {
+      this.props.addAd(data);
+    }
 
     this.setState({
       title: '',
       text: '',
       errors: [],
-      open: (this.state.title === '' && this.state.text === '') ? true : false
     });
+
+    if (this.state.title !== '' && this.state. text !== '') this.props.openModal(false);
   }
 
   render() {
-    const { errors, open, title, text } = this.state;
+    const { errors, title, text } = this.state;
+    const { open, selectedAd } = this.props;
     return (
       <Modal
         trigger={
@@ -93,7 +128,7 @@ class NewAd extends Component {
         dimmer='blurring'
       >
         <Modal.Header>
-          Add a new ad for your entreprise
+          { selectedAd ? 'Edit ad' : 'Add a new ad for your entreprise'}
           <Button floated='right' negative onClick={this.close} content='Annuler' />
         </Modal.Header>
         <Modal.Content>
@@ -133,10 +168,12 @@ class NewAd extends Component {
 }
 
 NewAd.propTypes = {
+  ad: PropTypes.object.isRequired,
   addAd: PropTypes.func.isRequired,
+  editAd: PropTypes.func.isRequired,
   clearAdFailure: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({ ad: state.ad });
 
-export default connect(mapStateToProps, { clearAdFailure, addAd })(NewAd);
+export default connect(mapStateToProps, { clearAdFailure, addAd, editAd })(NewAd);

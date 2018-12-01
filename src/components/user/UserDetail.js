@@ -80,7 +80,7 @@ class UserDetail extends Component {
           <div style={{margin: "20px 0"}}>
             <ConfirmAction
               open={openConfirm}
-              id={id}
+              data={selectedUser}
               action={this.props.deleteUser}
               handleConfirmAction={this.handleConfirmAction}
               header='Suppression'

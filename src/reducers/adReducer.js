@@ -9,8 +9,23 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case types.CLEAR_AD_FAILURE:
+      return {
+        ...state,
+        errors: []
+      };
+    case types.CLEAR_SELECTED_AD:
+      return {
+        ...state,
+        selectedAd: null
+      };
+    case types.SELECTED_AD:
+      return {
+        ...state,
+        selectedAd: payload,
+        loading: false
+      }
     case types.AD_ERRORS:
-    console.log(payload);
       return {
         ...state,
         errors: [...state.errors, payload],

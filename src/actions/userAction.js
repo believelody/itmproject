@@ -101,7 +101,8 @@ export const addUser = (user, cb, selectedUser) => dispatch => {
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
-            draggable: true
+            draggable: true,
+            className: 'toast-container-success'
           });
           cb.goBack();
         });
@@ -119,7 +120,8 @@ export const addUser = (user, cb, selectedUser) => dispatch => {
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
-            draggable: true
+            draggable: true,
+            className: 'toast-container-success'
           });
           cb.goBack();
         });
@@ -130,15 +132,30 @@ export const addUser = (user, cb, selectedUser) => dispatch => {
 export const clearUserFailure = () => ({ type: types.CLEAR_USER_FAILURE });
 
 export const deleteUser = user => dispatch => {
-  userRef.child(user.id).remove().then(() => {
-    let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'supprimée' : 'supprimé'}`;
+  if (user.role === 'admin') {
+    let content = `Désolé, l'admin ne peut être supprimé. Enlever à cet utilisateur ces droits d'administration puis supprimer le`;
 
     toast.error(content, {
       position: "bottom-right",
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true
+      draggable: true,
+      className: 'toast-container-warning'
     });
-  });
+  }
+  else {
+    userRef.child(user.id).remove().then(() => {
+      let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'supprimée' : 'supprimé'}`;
+
+      toast.error(content, {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: 'toast-container-failure'
+      });
+    });
+  }
 }

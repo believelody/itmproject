@@ -24,7 +24,7 @@ class UserTable extends React.Component {
       <div>
         <ConfirmAction
           open={openConfirm}
-          user={user}
+          data={user}
           action={this.props.deleteUser}
           handleConfirmAction={this.handleConfirmAction}
           header='Suppression'

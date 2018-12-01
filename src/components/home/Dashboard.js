@@ -17,8 +17,15 @@ class Dashboard extends Component {
     this.props.fetchAllAds();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.ad.ads.length !== nextProps.ad.ads.length) {
+      nextProps.fetchAllAds();
+    }
+  }
+
   render() {
     const { loading, ads } = this.props.ad;
+
     return (
       <Container fluid className='container'>
         <Header
@@ -28,14 +35,14 @@ class Dashboard extends Component {
           textAlign='center'
         />
         {
-          loading && <Loader inline='center' content='Chargement...' />
+          loading && <Loader content='Chargement...' />
         }
         {
-          !loading && ads &&
+          !loading && ads.length > 0 &&
           <div>
             <Message>
-              <Header content={`Actualités de l'entreprise`} />
-              { ads.texte }
+              <Header content={`Actualités de l'entreprise`} subheader={ads[0].title} />
+              { ads[0].text }
             </Message>
             <Segment className='stat-resume'>
               <StatItem

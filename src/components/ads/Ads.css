@@ -1,0 +1,12 @@
+.ads-list {
+  max-width: 700px;
+  margin: 0 auto !important;
+}
+
+.ad-item:hover {
+  transform: scale(1.02);
+}
+
+.ad-item-btn {
+  cursor: pointer;
+}

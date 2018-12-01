@@ -1,0 +1,11 @@
+.toast-container-success {
+  background-color: #27ae60;
+}
+
+.toast-container-failure {
+  background-color: #c0392b;
+}
+
+.toast-container-warning {
+  background-color: #e67e22;
+}
