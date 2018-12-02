@@ -11,6 +11,7 @@ import {
   AuthRoute,
   Settings,
   Ads,
+  AdminSys,
   Login } from '../Export';
 
 class Main extends Component {
@@ -29,6 +30,7 @@ class Main extends Component {
             <AuthRoute exact path='/user/:user_id' component={UserDetail} />
             <AuthRoute exact path='/settings' component={Settings} />
             <AuthRoute exact path='/settings/ads' component={Ads} />
+            <AuthRoute exact path='/settings/admin-sys' component={AdminSys} />
           </Switch>
         </Container>
     );

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../actions/userAction';
 // import { Dropdown, DropdownToggle } from 'reactstrap';
-import { Button, Input, Header, Checkbox, Loader, Icon } from 'semantic-ui-react';
+import { Button, Input, Header, Checkbox, Loader, Icon, Message, Segment } from 'semantic-ui-react';
 import { UserTable, UserList, FilterFields } from '../Export';
 
 class Users extends Component {
@@ -86,10 +86,21 @@ class Users extends Component {
               />
             }
             {
-              window.screen.width < 1024 && <UserList users={users} search={search} />
+              users.length === 0 &&
+              <Segment textAlign='center'>
+                <Message
+                size='large'
+                  info
+                  header='Liste vide'
+                  content={`Aucun employé enregistré dans le base de données. Veuillez en créer un en appuyant sur le bouton: "Ajouté un employé"`}
+                />
+              </Segment>
             }
             {
-              window.screen.width >= 1024 && toggleTable &&
+              window.screen.width < 1024 && users.length > 0 && <UserList users={users} search={search} />
+            }
+            {
+              window.screen.width >= 1024 && users.length > 0 && toggleTable &&
               <UserTable
                 users={users}
                 search={search}
@@ -97,7 +108,7 @@ class Users extends Component {
               />
             }
             {
-              window.screen.width >= 1024 && !toggleTable &&
+              window.screen.width >= 1024 && users.length > 0 && !toggleTable &&
               <UserList
                 users={users}
                 search={search}

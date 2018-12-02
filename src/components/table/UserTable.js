@@ -59,7 +59,7 @@ class UserTable extends React.Component {
                 .map((user, i) =>
                   <Table.Row key={i}>
                     <Table.Cell>
-                      <Image avatar src={user.img || require('../../img/itm_avatar_user_male.png')} />
+                      <Image avatar src={user.img || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} />
                     </Table.Cell>
                     <Table.Cell>
                       {

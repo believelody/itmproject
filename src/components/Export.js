@@ -22,6 +22,8 @@ import AuthRoute from './auth/AuthRoute';
 import Settings from './settings/Settings';
 import Ads from './ads/Ads';
 import NewAd from './form/NewAd';
+import AdminSys from './admin-sys/AdminSys';
+import NewAdmin from './form/NewAdmin';
 
 export {
   Header,
@@ -47,5 +49,7 @@ export {
   AuthRoute,
   Settings,
   Ads,
-  NewAd
+  NewAd,
+  AdminSys,
+  NewAdmin
 };

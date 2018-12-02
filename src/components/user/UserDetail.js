@@ -105,20 +105,26 @@ class UserDetail extends Component {
                 </Card.Header>
               </Card.Content>
               <Image
-                src={selectedUser.img || require('../../img/itm_avatar_user_male.png')}
+                src={selectedUser.img || require(selectedUser.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')}
                 alt={selectedUser.idNFC}
               />
               <Card.Content>
                 <Card.Header content={`${selectedUser.prenom} ${selectedUser.nom}`} />
-                <Card.Header className='float-right'>
-                  <Moment locale='fr' from={selectedUser.naissance} ago />
-                </Card.Header>
-                <Card.Meta>
+                {
+                  selectedUser.naissance &&
+                  <Card.Header className='float-right'>
+                    <Moment locale='fr' from={selectedUser.naissance} ago />
+                  </Card.Header>
+                }
+                  <Card.Meta>
                   {selectedUser.email}
                 </Card.Meta>
-                <Card.Meta>
-                  {selectedUser.sexe === 'Femme' ? 'Née le' : 'Né le'} <Moment locale='fr' format="DD MMMM YYYY" date={selectedUser.naissance} />
-                </Card.Meta>
+                {
+                  selectedUser.naissance &&
+                  <Card.Meta>
+                    {selectedUser.sexe === 'Femme' ? 'Née le' : 'Né le'} <Moment locale='fr' format="DD MMMM YYYY" date={selectedUser.naissance} />
+                  </Card.Meta>
+                }
                 <Card.Description className='d-flex justify-content-around flex-wrap'>
                   <div className='p-2'>Poste: {selectedUser.poste}</div>
                   <div className='p-2'>Absence: 0</div>

@@ -46,7 +46,7 @@ class UserList extends React.Component {
               })
               .map((user, i) =>
                 <Card className='user-item' key={i}>
-                  <Image src={user.img || require('../../img/itm_avatar_user_male.png')} />
+                  <Image src={user.img || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} />
                   <Card.Content>
                     <Card.Header>{user.prenom} {user.nom}</Card.Header>
                     <Card.Meta>{user.email}</Card.Meta>

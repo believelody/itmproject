@@ -10,12 +10,13 @@ class AddUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      idNFC: '',
       email: '',
       nom: '',
       prenom: '',
       poste: '',
       sexe: '',
-      titre: '',
+      titre: 'Mr',
       adresse: '',
       ville: '',
       cp: '',
@@ -43,22 +44,24 @@ class AddUser extends Component {
     }
 
     if (nextProps.user && nextProps.user.selectedUser) {
+      console.log(nextProps.user.selectedUser);
       this.setState({
-        nom: nextProps.user.selectedUser.nom,
-        prenom: nextProps.user.selectedUser.prenom,
-        email: nextProps.user.selectedUser.email,
-        poste: nextProps.user.selectedUser.poste,
-        sexe: nextProps.user.selectedUser.sexe,
+        idNFC: nextProps.user.selectedUser.id || '',
+        nom: nextProps.user.selectedUser.nom || '',
+        prenom: nextProps.user.selectedUser.prenom || '',
+        email: nextProps.user.selectedUser.email || '',
+        poste: nextProps.user.selectedUser.poste || '',
+        sexe: nextProps.user.selectedUser.sexe || '',
         titre: nextProps.user.selectedUser.titre,
-        adresse: nextProps.user.selectedUser.adresse,
-        ville: nextProps.user.selectedUser.ville,
-        cp: nextProps.user.selectedUser.cp,
-        naissance: nextProps.user.selectedUser.naissance,
-        lieu: nextProps.user.selectedUser.lieu,
-        pays: nextProps.user.selectedUser.pays,
+        adresse: nextProps.user.selectedUser.adresse || '',
+        ville: nextProps.user.selectedUser.ville || '',
+        cp: nextProps.user.selectedUser.cp || '',
+        naissance: nextProps.user.selectedUser.naissance || '',
+        lieu: nextProps.user.selectedUser.lieu || '',
+        pays: nextProps.user.selectedUser.pays || '',
         img: nextProps.user.selectedUser.img,
-        niveau: nextProps.user.selectedUser.niveau,
-        telephone: nextProps.user.selectedUser.telephone
+        niveau: nextProps.user.selectedUser.niveau || '',
+        telephone: nextProps.user.selectedUser.telephone || ''
       });
     }
   }
@@ -79,6 +82,7 @@ class AddUser extends Component {
     }
 
     let {
+      idNFC,
       titre,
       nom,
       prenom,
@@ -98,7 +102,6 @@ class AddUser extends Component {
     } = this.state;
 
     let newUser = {
-      idNFC: `itmprojet41992-${nom}-${prenom}`,
       titre,
       nom,
       prenom,
@@ -109,19 +112,22 @@ class AddUser extends Component {
       adresse,
       ville,
       cp,
-      img,
+      img: img !== undefined ? img : null,
       telephone,
       naissance,
       lieu,
       pays,
-      absence: false,
-      role: 'user'
+      role: (this.props.user.selectedUser && this.props.user.selectedUser.role !== 'user') ? this.props.user.selectedUser.role : 'user'
     };
-    this.props.addUser(newUser, this.props.history, this.props.user.selectedUser);
+
+    console.log(newUser);
+
+    this.props.addUser(newUser, idNFC, this.props.history, this.props.user.selectedUser);
 
     // console.log(this.props.user.errors.length);
 
     this.setState({
+      idNFC: errors.find(err => err.code === 'idNFC') ? '' : idNFC,
       email: errors.find(err => err.code === 'email') ? '' : email,
       nom: errors.find(err => err.code === 'nom') ? '' : nom,
       prenom: errors.find(err => err.code === 'prenom') ? '' : prenom,
@@ -166,7 +172,7 @@ class AddUser extends Component {
   }
 
   render() {
-    const { titre, email, nom, prenom, niveau, poste, sexe, adresse, ville, cp, naissance, lieu, pays, img, telephone, errors } = this.state;
+    const { idNFC, titre, email, nom, prenom, niveau, poste, sexe, adresse, ville, cp, naissance, lieu, pays, img, telephone, errors } = this.state;
     const { loading, selectedUser } = this.props.user;
 
     return (
@@ -177,17 +183,34 @@ class AddUser extends Component {
               <Form.Field
                 error={(errors.length > 0 && errors.find(err => err.code === 'img')) ? true : false}
               >
-                <Image size='medium' src={img || require('../../img/itm_avatar_user_male.png')} alt='profil' />
+                <Image size='medium' src={img || require((selectedUser && selectedUser.sexe === 'Femme') ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} alt='profil' />
                 <Input
                   type='file'
                   name='img'
                   label="Photo de l'employé"
                   onChange={this.handleChange}
                   onFocus={this.clearInput}
-                  value=''
+                  value={img}
                 />
                 {this.validationFeedBack(errors, 'img')}
               </Form.Field>
+            </Form.Group>
+
+            <Form.Group style={{padding: 20}}>
+              <label>Identifiant de l'appareil personnel</label><span style={{color: 'red'}}>*</span>
+              <Form.Field
+                required
+                error={(errors.length > 0 && errors.find(err => err.code === 'idNFC')) ? true : false}
+                width={10}
+              >
+                <Input
+                  name='idNFC'
+                  value={idNFC}
+                  onChange={this.handleChange}
+                  onFocus={this.clearInput}
+                />
+              </Form.Field>
+              { this.validationFeedBack(errors, "idNFC") }
             </Form.Group>
 
             <Form.Group style={{paddingBottom: 20}} inline>

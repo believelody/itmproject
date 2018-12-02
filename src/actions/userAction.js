@@ -1,9 +1,11 @@
 import * as types from '../types';
 import { toast } from 'react-toastify';
-import firebase from 'firebase';
-import firebaseConfig from '../firebaseConfig';
+import fire from '../firebaseConfig';
+import axios from 'axios';
 
-const userRef = firebase.database().ref().child('User');
+const userRef = fire.database().ref().child('User');
+const fireDB = fire.database();
+const fireAuth = fire.auth();
 
 export const userLoading = (isLoading = true) => ({
   type: types.USER_LOADING,
@@ -45,8 +47,10 @@ export const fetchOneUser = id => dispatch => {
   });
 }
 
-export const addUser = (user, cb, selectedUser) => dispatch => {
-  // console.log(selectedUser);
+export const addUser = (user, idNFC, cb, selectedUser) => dispatch => {
+  if (idNFC === '') {
+    dispatch(userFailure({code: 'idNFC', msg: "Le champ Identifiant de l'appareil est requis"}));
+  }
   if (user.nom === '') {
     dispatch(userFailure({code: 'nom', msg: 'Le champ Nom est requis'}));
   }
@@ -89,11 +93,13 @@ export const addUser = (user, cb, selectedUser) => dispatch => {
   if (user.cp === '') {
     dispatch(userFailure({code: 'cp', msg: 'Le champ Code Postal est requis'}));
   }
-  if (user.nom !== '' && user.email !== '' && user.poste !== '' && user.sexe !== '' && user.prenom !== '' && user.adresse !== '' && user.ville !== '' && user.cp !== '' && user.telephone !== '' && user.naissance !== '' && user.lieu !== '' && user.pays !== '' && user.titre !== '' && user.niveau !== '') {
+  if (idNFC !== '' && user.nom !== '' && user.email !== '' && user.poste !== '' && user.sexe !== '' && user.prenom !== '' && user.adresse !== '' && user.ville !== '' && user.cp !== '' && user.telephone !== '' && user.naissance !== '' && user.lieu !== '' && user.pays !== '' && user.titre !== '' && user.niveau !== '') {
     if (selectedUser) {
-      userRef
-        .child(selectedUser.id)
-        .update(user)
+      let updates = {};
+      updates[`User/${selectedUser.id}`] = user;
+      fireDB
+        .ref()
+        .update(updates)
         .then(() => {
           let content = `${selectedUser.prenom} ${selectedUser.nom} a bien été ${selectedUser.sexe === 'Femme' ? 'modifieé' : 'modifié'}`;
 
@@ -108,23 +114,41 @@ export const addUser = (user, cb, selectedUser) => dispatch => {
         });
     }
     else {
-      userRef
-        .push()
-        .set(user)
-        .then(() => {
-          let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'ajoutée' : 'ajouté'}`;
-
-          toast.success(content, {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            className: 'toast-container-success'
-          });
-          cb.goBack();
-        });
+      axios.post('/netlify-functions/create-user', user);
+      // fireAuth
+      //   .createUserWithEmailAndPassword(user.email, idNFC)
+      //   .then(() => {
+      //     userRef
+      //       .child(idNFC)
+      //       .set(user)
+      //       .then(() => {
+      //         let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'ajoutée' : 'ajouté'}`;
+      //
+      //         toast.success(content, {
+      //           position: "bottom-right",
+      //           autoClose: 5000,
+      //           hideProgressBar: false,
+      //           closeOnClick: true,
+      //           pauseOnHover: true,
+      //           draggable: true,
+      //           className: 'toast-container-success'
+      //         });
+      //         cb.goBack();
+      //       });
+      //   })
+      //   .catch(error => {
+      //     let content = `Erreur: l'utilisateur que vous essayez d'enregistrer existe déjà`;
+      //
+      //     toast.error(content, {
+      //       position: "bottom-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       className: 'toast-container-failure'
+      //     });
+      //   });
     }
   }
 }
@@ -135,7 +159,7 @@ export const deleteUser = user => dispatch => {
   if (user.role === 'admin') {
     let content = `Désolé, l'admin ne peut être supprimé. Enlever à cet utilisateur ces droits d'administration puis supprimer le`;
 
-    toast.error(content, {
+    toast.warning(content, {
       position: "bottom-right",
       hideProgressBar: false,
       closeOnClick: true,
@@ -158,4 +182,34 @@ export const deleteUser = user => dispatch => {
       });
     });
   }
+}
+
+export const setAdminRole = (mdp, selectedUser) => dispatch => {
+  if (mdp === '') {
+    dispatch(userFailure({code: 'mdp', msg: "Le champ Mot de passe est requis"}));
+  }
+  else {
+    fireAuth.onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+      }
+    });
+  }
+  // user.role = 'admin';
+  //
+  // userRef
+  //   .child(user.id)
+  //   .update(user)
+  //   .then(() => {
+  //     let content = `Vos modifications ont bien été prises en compte`;
+  //
+  //     toast.success(content, {
+  //       position: "bottom-right",
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       className: 'toast-container-success'
+  //     });
+  //   });
 }
