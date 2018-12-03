@@ -114,41 +114,30 @@ export const addUser = (user, idNFC, cb, selectedUser) => dispatch => {
         });
     }
     else {
-      axios.post('/netlify-functions/create-user', user);
-      // fireAuth
-      //   .createUserWithEmailAndPassword(user.email, idNFC)
-      //   .then(() => {
-      //     userRef
-      //       .child(idNFC)
-      //       .set(user)
-      //       .then(() => {
-      //         let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'ajoutée' : 'ajouté'}`;
-      //
-      //         toast.success(content, {
-      //           position: "bottom-right",
-      //           autoClose: 5000,
-      //           hideProgressBar: false,
-      //           closeOnClick: true,
-      //           pauseOnHover: true,
-      //           draggable: true,
-      //           className: 'toast-container-success'
-      //         });
-      //         cb.goBack();
-      //       });
-      //   })
-      //   .catch(error => {
-      //     let content = `Erreur: l'utilisateur que vous essayez d'enregistrer existe déjà`;
-      //
-      //     toast.error(content, {
-      //       position: "bottom-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       className: 'toast-container-failure'
-      //     });
-      //   });
+      axios
+        .post('/.netlify/functions/create-user', {email: user.email, password: idNFC})
+        .then(res => {
+          userRef
+            .child(idNFC)
+            .set(user)
+            .then(() => {
+              let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'ajoutée' : 'ajouté'}`;
+
+              toast.success(content, {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                className: 'toast-container-success'
+              });
+              cb.goBack();
+            });
+          })
+          .catch(({response}) => {
+            dispatch(userFailure({code: 'auth-submit', msg: response.data.msg }));
+          });
     }
   }
 }
@@ -184,16 +173,48 @@ export const deleteUser = user => dispatch => {
   }
 }
 
-export const setAdminRole = (mdp, selectedUser) => dispatch => {
-  if (mdp === '') {
-    dispatch(userFailure({code: 'mdp', msg: "Le champ Mot de passe est requis"}));
+export const setAdminRole = (selectedUser, email) => dispatch => {
+  if (email === '') {
+    dispatch(userFailure({code: 'email', msg: "Le champ Email est requis"}));
   }
   else {
-    fireAuth.onAuthStateChanged(user => {
-      if (user) {
-        console.log(user);
+    const currentUser = fireAuth.currentUser;
+    if (email === currentUser.email) {
+      if (selectedUser.role === 'user') {
+        selectedUser.role = 'admin';
       }
-    });
+      else {
+        selectedUser.role = 'user';
+      }
+
+      userRef
+        .child(selectedUser.id)
+        .update(selectedUser)
+        .then(() => {
+          let content = `Vos modifications ont bien été prises en compte`;
+
+          toast.success(content, {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            className: 'toast-container-success'
+          });
+        });
+    }
+    else {
+      let content = `L'email indiqué est incorrect`;
+
+      toast.error(content, {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        className: 'toast-container-failure'
+      });
+    }
   }
   // user.role = 'admin';
   //

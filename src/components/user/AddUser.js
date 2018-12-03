@@ -460,6 +460,7 @@ class AddUser extends Component {
                 { this.validationFeedBack(errors, "cp") }
               </Form.Field>
             </Form.Group>
+            {this.validationFeedBack(errors, 'auth-submit')}
             <Button color='green'>Submit</Button>
           </Form>
       </Container>

@@ -48,12 +48,11 @@ class AdminSys extends Component {
                   <List.Item key={user.id}>
                     <List.Content>
                       {user.nom} {user.prenom}
-                    </List.Content>
-                    <List.Content floated='right'>
                       <Button
+                        floated='right'
                         toggle
                         active={user.role === 'admin'}
-                        onClick={() => this.openModal(true)}
+                        onClick={() => this.sendID(user)}
                         content={user.role === 'admin' ? 'Admin' : 'User'}
                       />
                     </List.Content>

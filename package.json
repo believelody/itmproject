@@ -10,6 +10,7 @@
     "firebase": "^5.5.4",
     "firebase-admin": "^6.3.0",
     "firebaseui": "^3.4.1",
+    "http-proxy-middleware": "^0.19.1",
     "moment": "^2.22.2",
     "nivo": "^0.31.0",
     "prop-types": "^15.6.2",
@@ -42,14 +43,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "proxy": {
-    "/.netlify/functions": {
-      "target": "http://localhost:9000",
-      "pathRewrite": {
-        "^/\\.netlify/functions": ""
-      }
-    }
   },
   "browserslist": [
     ">0.2%",

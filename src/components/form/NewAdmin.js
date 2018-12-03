@@ -8,24 +8,11 @@ class NewAdmin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mdp: '',
+      email: '',
       visible: false,
       errors: []
     }
   }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.selecteduser && (nextProps.selecteduser.title !== prevState.title || nextProps.selecteduser.mdp !== prevState.mdp)) {
-  //     return {
-  //       title: nextProps.selecteduser.title || '',
-  //       mdp: nextProps.selecteduser.mdp || ''
-  //     }
-  //   }
-  //   if (nextProps.user && nextProps.user.errors.length > 0 && nextProps.user.errors.length !== prevState.errors.length) {
-  //     return { errors: nextProps.user.errors, visible: true };
-  //   }
-  //   return null;
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user && nextProps.user.errors.length > 0) {
@@ -63,31 +50,32 @@ class NewAdmin extends Component {
   open = () => this.props.openModal(true);
 
   close = () => {
-    this.setState({ visible: false, errors: [], title: '', mdp: '' });
-    this.props.clearuserFailure();
+    this.setState({ visible: false, errors: [], email: '' });
+    this.props.clearUserFailure();
     this.props.openModal(false);
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { mdp } = this.state;
+    const { email } = this.state;
 
     if (this.props.user.errors.length > 0) {
-      this.props.clearuserFailure();
+      console.log(this.props.errors);
+      this.props.clearUserFailure();
     }
 
-    this.props.setAdminRole(this.props.selectedUser, mdp);
+    this.props.setAdminRole(this.props.selectedUser, email);
 
     this.setState({
-      mdp: '',
+      email: '',
       errors: [],
     });
 
-    if (this.state.mdp !== '') this.props.openModal(false);
+    if (this.state.email !== '') this.props.openModal(false);
   }
 
   render() {
-    const { errors, title, mdp } = this.state;
+    const { errors, email } = this.state;
     const { open } = this.props;
     return (
       <Modal
@@ -102,18 +90,18 @@ class NewAdmin extends Component {
         <Modal.Content>
           <Form onSubmit={this.handleSubmit} noValidate>
             <Form.Field
-              error={(errors.length > 0 && errors.find(err => err.code === 'mdp')) ? true : false}
+              error={(errors.length > 0 && errors.find(err => err.code === 'email')) ? true : false}
             >
-              <label>Mot de Passe</label>
+              <label>Email</label>
               <Input
-                name='mdp'
-                type='password'
+                name='email'
+                type='email'
                 onChange={this.handleChange}
                 onFocus={this.clearInput}
-                value={title}
-                placeholder='Indiquer votre mot de passe'
+                value={email}
+                placeholder='Indiquer votre email'
               />
-              {this.validationFeedBack(errors, 'mdp')}
+              {this.validationFeedBack(errors, 'email')}
             </Form.Field>
             <Button positive content='Valider' />
           </Form>
