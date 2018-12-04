@@ -31,9 +31,11 @@ export default (state = initialState, { type, payload}) => {
         loading: payload
       };
     case types.AUTHENTICATED:
+      console.log(payload);
       return {
         ...state,
         user: payload,
+        isAuthenticated: true,
         loading: false
       };
     default:

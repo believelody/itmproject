@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { register, login, clearAuthFailure, authListener } from '../../actions/authAction';
 import { Form, Input, Button, Message, Segment, Header, Loader } from 'semantic-ui-react';
@@ -23,8 +23,14 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      window.location.href = '/';
+    if (nextProps.auth.user && nextProps.auth.isAuthenticated) {
+      // window.location.href = '/';
+      if (nextProps.auth.user.role === 'admin') {
+        this.props.history.replace('/admin');
+      }
+      else {
+        this.props.history.replace('/');
+      }
     }
     if (nextProps.auth && nextProps.auth.errors.length > 0) {
       this.setState({ errors: nextProps.auth.errors, visible: true });
@@ -132,6 +138,7 @@ class Login extends React.Component {
             </Segment>
         </div>
       }
+
       </Fragment>
     )
   }
@@ -146,4 +153,4 @@ Login.propTypes = {
 
 const mapStateToProps = state => ({ auth: state.auth });
 
-export default connect(mapStateToProps, { register, login, clearAuthFailure, authListener })(Login);
+export default connect(mapStateToProps, { register, login, clearAuthFailure, authListener })(withRouter(Login));

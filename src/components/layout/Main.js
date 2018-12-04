@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import {
-  Dashboard,
+  UserDashboard,
+  AdminDashboard,
   Statistics,
   Users,
   AddUser,
   UserDetail,
   ToastNotif,
-  AuthRoute,
+  UserRoute,
+  AdminRoute,
   Settings,
   Ads,
   AdminSys,
@@ -22,15 +24,16 @@ class Main extends Component {
           <ToastNotif />
           <Switch>
             <Route exact path='/login' component={Login} />
-            <AuthRoute exact path='/' component={Dashboard} />
-            <AuthRoute exact path='/statistic' component={Statistics} />
-            <AuthRoute exact path='/users' component={Users} />
-            <AuthRoute exact path='/new-user' component={AddUser} />
-            <AuthRoute exact path='/edit-user/:user_id' component={AddUser} />
-            <AuthRoute exact path='/user/:user_id' component={UserDetail} />
-            <AuthRoute exact path='/settings' component={Settings} />
-            <AuthRoute exact path='/settings/ads' component={Ads} />
-            <AuthRoute exact path='/settings/admin-sys' component={AdminSys} />
+            <UserRoute exact path='/' component={UserDashboard} />
+            <AdminRoute exact path='/admin' component={AdminDashboard} />
+            <AdminRoute exact path='/statistic' component={Statistics} />
+            <AdminRoute exact path='/users' component={Users} />
+            <AdminRoute exact path='/new-user' component={AddUser} />
+            <AdminRoute exact path='/edit-user/:user_id' component={AddUser} />
+            <AdminRoute exact path='/user/:user_id' component={UserDetail} />
+            <AdminRoute exact path='/settings' component={Settings} />
+            <AdminRoute exact path='/settings/ads' component={Ads} />
+            <AdminRoute exact path='/settings/admin-sys' component={AdminSys} />
           </Switch>
         </Container>
     );

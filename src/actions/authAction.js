@@ -2,6 +2,7 @@ import * as types from '../types';
 import fire from '../firebaseConfig';
 
 const fireAuth = fire.auth();
+const fireDB = fire.database();
 
 export const authLoading = (isLoading = true) => ({type: types.AUTH_LOADING, payload: isLoading});
 
@@ -11,13 +12,29 @@ export const authListener = () => dispatch => {
   dispatch(authLoading());
   fire.auth().onAuthStateChanged(user => {
     if (user) {
+      console.log(user);
       localStorage.setItem('user_token', user.uid);
       dispatch({ type: types.AUTH_CHECK, payload: true });
+      dispatch(authCurrentUser(user));
     }
     else {
       dispatch({ type: types.AUTH_CHECK, payload: false });
       localStorage.removeItem('user_token');
     }
+  });
+}
+
+export const authCurrentUser = user => dispatch => {
+  fireDB.ref('User').on("value", snapshot => {
+    snapshot.forEach(childSnapshot => {
+      let userMatch = childSnapshot.val();
+      if (userMatch.email === user.email) {
+        dispatch({
+          type: types.AUTHENTICATED,
+          payload: userMatch
+        });
+      }
+    });
   });
 }
 
@@ -58,13 +75,9 @@ export const login = ({email, password}) => dispatch => {
   if (email && password) {
     fireAuth
     .signInWithEmailAndPassword(email, password)
-    .then(user => {
+    .then(({user}) => {
       dispatch(authLoading());
-      dispatch({
-        type: types.AUTHENTICATED,
-        payload: user
-      });
-      window.location.href = '/';
+      dispatch(authCurrentUser(user));
     })
     .catch(err => {
       const errorCode = err.code;
@@ -77,14 +90,16 @@ export const login = ({email, password}) => dispatch => {
   }
 }
 
-export const logout = () => dispatch => fireAuth.signOut()
-.then(() => {
-  dispatch(authLoading());
-  localStorage.removeItem('user_token');
-  dispatch({
-    type: types.AUTHENTICATED,
-    payload: null
+export const logout = () => dispatch =>
+fireAuth
+  .signOut()
+  .then(() => {
+    dispatch(authLoading());
+    localStorage.removeItem('user_token');
+    dispatch({
+      type: types.AUTHENTICATED,
+      payload: null
+    });
   });
-});
 
 export const clearAuthFailure = () => ({ type: types.CLEAR_AUTH_FAILURE });

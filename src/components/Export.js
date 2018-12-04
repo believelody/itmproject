@@ -2,7 +2,8 @@ import Header from './layout/Header';
 import Main from './layout/Main';
 import Footer from './layout/Footer';
 import Users from './user/Users';
-import Dashboard from './home/Dashboard';
+import UserDashboard from './home/UserDashboard';
+import AdminDashboard from './home/AdminDashboard';
 import AddUser from './user/AddUser';
 import UserDetail from './user/UserDetail';
 import UserList from './list/UserList';
@@ -18,19 +19,23 @@ import StatItem from './statistic/StatItem';
 import Statistics from './statistic/Statistics';
 import ToastNotif from './toast/ToastNotif';
 import Login from './login/Login';
-import AuthRoute from './auth/AuthRoute';
+import UserRoute from './auth/UserRoute';
+import AdminRoute from './auth/AdminRoute';
 import Settings from './settings/Settings';
 import Ads from './ads/Ads';
 import NewAd from './form/NewAd';
 import AdminSys from './admin-sys/AdminSys';
 import NewAdmin from './form/NewAdmin';
+import AdminHeader from './header/AdminHeader';
+import UserHeader from './header/UserHeader';
 
 export {
   Header,
   Main,
   Footer,
   Users,
-  Dashboard,
+  UserDashboard,
+  AdminDashboard,
   AddUser,
   UserDetail,
   UserList,
@@ -46,10 +51,13 @@ export {
   Statistics,
   ToastNotif,
   Login,
-  AuthRoute,
+  UserRoute,
+  AdminRoute,
   Settings,
   Ads,
   NewAd,
   AdminSys,
-  NewAdmin
+  NewAdmin,
+  AdminHeader,
+  UserHeader
 };
