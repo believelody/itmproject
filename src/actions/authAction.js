@@ -12,14 +12,13 @@ export const authListener = () => dispatch => {
   dispatch(authLoading());
   fire.auth().onAuthStateChanged(user => {
     if (user) {
-      console.log(user);
-      localStorage.setItem('user_token', user.uid);
+      // localStorage.setItem('user_token', user.uid);
       dispatch({ type: types.AUTH_CHECK, payload: true });
       dispatch(authCurrentUser(user));
     }
     else {
       dispatch({ type: types.AUTH_CHECK, payload: false });
-      localStorage.removeItem('user_token');
+      // localStorage.removeItem('user_token');
     }
   });
 }

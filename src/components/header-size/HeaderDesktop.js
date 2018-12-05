@@ -7,7 +7,6 @@ import { Menu, Dropdown } from 'semantic-ui-react';
 import { AdminHeader, UserHeader } from '../Export';
 
 const HeaderDesktop = ({logout, auth}) => {
-  console.log(auth);
   return (
   <Menu style={{background: 'transparent', height: '100%'}}>
     {

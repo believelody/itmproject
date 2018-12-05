@@ -21,12 +21,14 @@ const AdminHeader = ({handleClick, logout}) =>
             <Dropdown.Menu>
               <Dropdown.Item as={NavLink} exact to='/settings' text='Paramètres' />
               <Dropdown.Divider />
+              <Dropdown.Item as={NavLink} exact to='/messaging' text='Messagerie' />
+              <Dropdown.Divider />
               <Dropdown.Item onClick={logout} text='Se déconnecter' />
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
       </Menu.Menu>
-      </>
+    </>
   }
   {
     window.screen.width < 1024 &&

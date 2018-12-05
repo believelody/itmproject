@@ -28,6 +28,7 @@ import AdminSys from './admin-sys/AdminSys';
 import NewAdmin from './form/NewAdmin';
 import AdminHeader from './header/AdminHeader';
 import UserHeader from './header/UserHeader';
+import AbsenceViewer from './absence/AbsenceViewer';
 
 export {
   Header,
@@ -59,5 +60,6 @@ export {
   AdminSys,
   NewAdmin,
   AdminHeader,
-  UserHeader
+  UserHeader,
+  AbsenceViewer
 };

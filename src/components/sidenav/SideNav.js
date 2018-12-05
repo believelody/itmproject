@@ -6,7 +6,7 @@ import { logout } from '../../actions/authAction';
 import { Sidebar, Menu, Segment } from 'semantic-ui-react';
 import { AdminHeader, UserHeader } from '../Export';
 
-const SideNav = ({visible, handleClick, children, logout, user}) => (
+const SideNav = ({visible, handleClick, children, logout, auth}) => (
   <Sidebar.Pushable as={Segment}>
     <Sidebar
       as={Menu}
@@ -17,7 +17,12 @@ const SideNav = ({visible, handleClick, children, logout, user}) => (
       width='thin'
     >
       {
-        console.log(user)
+        auth.user && auth.user.role === 'admin' &&
+        <AdminHeader handleClick={handleClick} logout={logout} />
+      }
+      {
+        auth.user && auth.user.role === 'user' &&
+        <UserHeader handleClick={handleClick} logout={logout} />
       }
     </Sidebar>
     {children}
@@ -28,6 +33,6 @@ SideNav.propTypes = {
   logout: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ auth: state.auth });
 
 export default connect(mapStateToProps, { logout })(SideNav);

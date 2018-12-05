@@ -2,7 +2,7 @@
   top: 0;
   width: 100%;
   height: 70px;
-  z-index: 1;
+  z-index: 99;
   padding: 0;
   position: sticky;
   /* border-radius: 4px; */

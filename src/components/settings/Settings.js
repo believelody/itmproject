@@ -11,6 +11,8 @@ const Settings = () => {
         <List.Item className='list-item' as={ NavLink } exact to='/settings/admin-sys' header="Gérer les accès admin" />
         <List.Item className='list-item' as={ NavLink } exact to='/settings/bills' header="Gérer l'édition des fiches de paie" />
         <List.Item className='list-item' as={ NavLink } exact to='/settings/fire' header="Gérer les licenciements" />
+        <List.Item className='list-item' as={ NavLink } exact to='/settings/absence' header="Gérer les justificatifs d'absence" />
+        <List.Item className='list-item' as={ NavLink } exact to='/settings/schedule' header="Gérer l'emploi du temps des gardiens" />
       </List>
     </Container>
   )
