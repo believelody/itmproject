@@ -15,17 +15,22 @@ import {
   Ads,
   AdminSys,
   AbsenceViewer,
+  Profile,
+  Deposit,
   Login } from '../Export';
+import './Layout.css';
 
 class Main extends Component {
 
   render() {
     return (
-        <Container as='main' style={{border: '1px solid #ccc', borderRadius: 4, margin: '15px auto'}}>
+        <Container as='main' className='main-style'>
           <ToastNotif />
           <Switch>
             <Route exact path='/login' component={Login} />
             <UserRoute exact path='/' component={UserDashboard} />
+            <UserRoute exact path='/profile' component={Profile} />
+            <UserRoute exact path='/deposit/:id' component={Deposit} />
             <AdminRoute exact path='/admin' component={AdminDashboard} />
             <AdminRoute exact path='/statistic' component={Statistics} />
             <AdminRoute exact path='/users' component={Users} />

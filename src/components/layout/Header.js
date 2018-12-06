@@ -15,8 +15,14 @@ import './Layout.css'
 //   borderRadius: '4px'
 // }
 
-const Header = ({handleClick, auth}) => auth.isAuthenticated &&
-  <div className='header-style gradient-background'>
+const Header = ({handleClick, auth}) =>
+  <div
+    className='header-style gradient-background'
+    style={{
+      height: auth.isAuthenticated ? '70px' : 0,
+      opacity: auth.isAuthenticated ? 1 : 0
+    }}
+  >
     {
       window.screen.width >= 1024 && <HeaderDesktop />
     }

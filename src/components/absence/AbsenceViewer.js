@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Container, Message, Segment, Button, Icon } from 'semantic-ui-react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import './Absence.css';
-import sample from "./test.pdf";
+// import sample from "./test.pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -12,13 +12,20 @@ class AbsenceViewer extends Component {
   constructor() {
     super();
     this.state = {
-      pageNumber: 1
+      pageNumber: 1,
+      sample: ''
     }
   }
 
   componentDidMount() {
     // this.props.fetchAllAbs();
     // this.displayFile('cv_believe_lody_2018.pdf');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.file) {
+      this.setState({ sample: nextProps.file });
+    }
   }
 
   handlePrevious = () => this.setState(prevState => ({ pageNumber: prevState.pageNumber - 1 }));
@@ -30,14 +37,14 @@ class AbsenceViewer extends Component {
   }
 
   render() {
-    const { pageNumber, numPages } = this.state;
+    const { pageNumber, numPages, sample } = this.state;
     return (
       <Container>
         <Message content='PDF viewer test' />
         <Segment
           textAlign='center'
           compact
-          className='segment'
+          className='segment-style'
         >
           <div style={{paddingBottom: 10, width: '100%'}}>
             <Button onClick={this.handlePrevious} disabled={pageNumber === 1}>
@@ -51,7 +58,7 @@ class AbsenceViewer extends Component {
             </Button>
           </div>
           <Document
-            file={sample}
+            file={`./${sample}`}
             className='document'
             onLoadSuccess={this.onDocumentLoadSuccess}
           >

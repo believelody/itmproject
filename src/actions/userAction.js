@@ -4,6 +4,9 @@ import fire from '../firebaseConfig';
 import axios from 'axios';
 
 const userRef = fire.database().ref().child('User');
+const absenceRef = fire.database().ref().child('Absence');
+const absenceStore = fire.storage().ref().child('absence');
+
 const fireDB = fire.database();
 const fireAuth = fire.auth();
 
@@ -233,4 +236,32 @@ export const setAdminRole = (selectedUser, email) => dispatch => {
   //       className: 'toast-container-success'
   //     });
   //   });
+}
+
+export const putAbsenceProof = (id, data) => dispatch => {
+  if (!data.file) {
+    dispatch(userFailure({code: 'file', msg: 'Le champ Fichier est requis'}));
+  }
+  if (!data.file.includes('pdf')) {
+    dispatch(userFailure({code: 'file', msg: 'Le fichier doit être de format PDF'}));
+  }
+  if (!data.date) {
+    dispatch(userFailure({code: 'date', msg: 'Le champ Date est requis'}));
+  }
+  if (data.file && data.date) {
+    const fileRd = new File(data.file);
+
+    console.log(fileRd);
+    // const absenceProofKey = absenceRef.push().key;
+    //
+    // const updates = {};
+    // updates[`/User/${id}/absence/${absenceProofKey}`] = data;
+    // updates[`/Absences/${absenceProofKey}`] = {user_id: id, ...data};
+    //
+    // absenceStore.child(absenceProofKey).put(new File(file))
+  }
+}
+
+export const receiveNotif = (id, data) => dispatch => {
+
 }

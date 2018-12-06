@@ -23,7 +23,7 @@ class UserRoute extends Component {
 
   render() {
     const {component: Component, auth, ...rest} = this.props;
-    console.log(auth);
+    
     return <Route
     {...rest}
     render={

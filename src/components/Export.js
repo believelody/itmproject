@@ -29,6 +29,9 @@ import NewAdmin from './form/NewAdmin';
 import AdminHeader from './header/AdminHeader';
 import UserHeader from './header/UserHeader';
 import AbsenceViewer from './absence/AbsenceViewer';
+import Profile from './profile/Profile';
+import Deposit from './deposit/Deposit';
+import DepositAbsenceForm from './form/DepositAbsenceForm';
 
 export {
   Header,
@@ -61,5 +64,8 @@ export {
   NewAdmin,
   AdminHeader,
   UserHeader,
-  AbsenceViewer
+  AbsenceViewer,
+  Profile,
+  Deposit,
+  DepositAbsenceForm
 };

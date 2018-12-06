@@ -24,7 +24,8 @@ class UserDashboard extends Component {
   }
 
   render() {
-    const { loading, ads } = this.props.ad;
+    const { ads } = this.props.ad;
+    const { loading, user } = this.props.auth;
 
     return (
       <Container fluid className='container'>
@@ -38,13 +39,18 @@ class UserDashboard extends Component {
           loading && <Loader content='Chargement...' />
         }
         {
-          !loading && ads.length > 0 &&
+          !loading && user && ads.length > 0 &&
           <div>
             <Message>
               <Header content={`Actualités de l'entreprise`} subheader={ads[0].title} />
               { ads[0].text }
             </Message>
             <Segment className='user-resume'>
+              {
+                user.notif ?
+                <Message compact content={user.notif} header='Notifications' /> :
+                <Message compact content="Vous n'avez pas de nouvelles notifications" />
+              }
             </Segment>
           </div>
         }
@@ -59,7 +65,8 @@ UserDashboard.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  ad: state.ad
+  ad: state.ad,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { fetchAllAds })(UserDashboard);

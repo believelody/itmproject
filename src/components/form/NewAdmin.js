@@ -60,7 +60,6 @@ class NewAdmin extends Component {
     const { email } = this.state;
 
     if (this.props.user.errors.length > 0) {
-      console.log(this.props.errors);
       this.props.clearUserFailure();
     }
 
