@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { putAbsenceProof, clearUserFailure } from '../../actions/userAction';
-import { Form, Button, Input, Message, Icon } from 'semantic-ui-react';
+import { Form, Button, Input, Message, Icon, Image } from 'semantic-ui-react';
 import { AbsenceViewer } from '../Export';
 
 class DepositAbsenceForm extends Component {
@@ -48,7 +48,14 @@ class DepositAbsenceForm extends Component {
     }
   }
 
-  handleChange = (e, {name, value}) => this.setState({ [name]: value});
+  handleChange = (e, {name, value}) => {
+    if (e.target.id) {
+      this.setState({ file: URL.createObjectURL(e.target.files[0]), open: true });
+    }
+    else {
+      this.setState({ [name]: value});
+    }
+  }
 
 
 
@@ -59,10 +66,6 @@ class DepositAbsenceForm extends Component {
     if (this.props.user.errors.length > 0) {
       this.props.clearUserFailure();
     }
-
-    const inputFile = document.querySelector('#inputFile');
-    console.log(inputFile.files[0].name);
-    this.setState({ file: inputFile.files[0].name, open: true });
     // this.props.putAbsenceProof(this.props.id, data);
 
     this.setState({
@@ -76,26 +79,6 @@ class DepositAbsenceForm extends Component {
     const { file, date, errors, visible, open } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} noValidate>
-        <Form.Field
-          error={(errors.length > 0 && errors.find(err => err.code === 'file')) ? true : false}
-        >
-          <label>
-            Fichier
-            <span style={{padding: '0 5px'}}></span>
-            <Icon name='download' />
-          </label>
-          <Input
-            name='file'
-            type='file'
-            id='inputFile'
-            accept='.pdf'
-            onChange={this.handleChange}
-            onFocus={this.clearInput}
-            value={file}
-            placeholder='Sélectionner votre document'
-          />
-          {this.validationFeedBack(errors, 'file')}
-        </Form.Field>
         <Form.Field
           error={(errors.length > 0 && errors.find(err => err.code === 'date')) ? true : false}
         >
@@ -114,8 +97,37 @@ class DepositAbsenceForm extends Component {
           />
           {this.validationFeedBack(errors, 'date')}
         </Form.Field>
-        <Button positive content='Valider' />
-        {open && <AbsenceViewer file={file} />}
+        <Form.Field
+          error={(errors.length > 0 && errors.find(err => err.code === 'file')) ? true : false}
+        >
+          <label>
+            Fichier
+            <span style={{padding: '0 5px'}}></span>
+            <Icon name='download' />
+          </label>
+          <Input
+            name='file'
+            type='file'
+            id='inputFile'
+            accept='application/pdf'
+            multiple
+            onChange={this.handleChange}
+            onFocus={this.clearInput}
+            placeholder='Sélectionner votre document'
+          />
+          {this.validationFeedBack(errors, 'file')}
+        </Form.Field>
+        {
+          open &&
+          <>
+            <Message
+              content="Pour confirmer l'envoi du document, cliquer sur le bouton <<Enregistrer ci-bas>>"
+              header="Visualisation de votre document"
+            />
+            <AbsenceViewer file={file} />
+          </>
+        }
+        <Button positive content='Enregistrer' />
       </Form>
     )
   }
