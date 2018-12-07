@@ -238,27 +238,30 @@ export const setAdminRole = (selectedUser, email) => dispatch => {
   //   });
 }
 
-export const putAbsenceProof = (id, data) => dispatch => {
-  if (!data.file) {
+export const putAbsenceProof = (id, {file, date}) => dispatch => {
+  if (!file) {
     dispatch(userFailure({code: 'file', msg: 'Le champ Fichier est requis'}));
   }
-  if (!data.file.includes('pdf')) {
-    dispatch(userFailure({code: 'file', msg: 'Le fichier doit être de format PDF'}));
-  }
-  if (!data.date) {
+  if (!date) {
     dispatch(userFailure({code: 'date', msg: 'Le champ Date est requis'}));
   }
-  if (data.file && data.date) {
-    const fileRd = new File(data.file);
+  if (file && date) {
+    console.log(file);
+    const fileRd = new File([file], file.name, { type: 'application/pdf' });
 
     console.log(fileRd);
-    // const absenceProofKey = absenceRef.push().key;
-    //
-    // const updates = {};
-    // updates[`/User/${id}/absence/${absenceProofKey}`] = data;
-    // updates[`/Absences/${absenceProofKey}`] = {user_id: id, ...data};
-    //
-    // absenceStore.child(absenceProofKey).put(new File(file))
+    const absenceProofKey = absenceRef.push().key;
+
+    const updates = {};
+    updates[`/User/${id}/absence/${absenceProofKey}`] = {filename: file.name, date};
+    updates[`/Absences/${absenceProofKey}`] = {user_id: id, filename: file.name, date};
+    absenceStore
+      .child(absenceProofKey).
+      child(file.name)
+      .put(fileRd)
+      .then(() => {
+        fireDB.ref().update(updates);
+      });
   }
 }
 

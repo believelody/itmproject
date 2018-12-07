@@ -28,7 +28,8 @@ import AdminSys from './admin-sys/AdminSys';
 import NewAdmin from './form/NewAdmin';
 import AdminHeader from './header/AdminHeader';
 import UserHeader from './header/UserHeader';
-import AbsenceViewer from './absence/AbsenceViewer';
+import Absence from './absence/Absence';
+import DocumentViewer from './document/DocumentViewer';
 import Profile from './profile/Profile';
 import Deposit from './deposit/Deposit';
 import DepositAbsenceForm from './form/DepositAbsenceForm';
@@ -64,7 +65,8 @@ export {
   NewAdmin,
   AdminHeader,
   UserHeader,
-  AbsenceViewer,
+  Absence,
+  DocumentViewer,
   Profile,
   Deposit,
   DepositAbsenceForm

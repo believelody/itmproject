@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Message, Segment, Button, Icon } from 'semantic-ui-react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import './Absence.css';
+import './Document.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-class AbsenceViewer extends Component {
+class DocumentViewer extends Component {
   constructor() {
     super();
     this.state = {
@@ -26,7 +26,6 @@ class AbsenceViewer extends Component {
   render() {
     const { pageNumber, numPages } = this.state;
     const { file } = this.props;
-    console.log(file);
     return (
       <>
         {
@@ -48,7 +47,7 @@ class AbsenceViewer extends Component {
               </Button>
             </div>
             <Document
-              file={file}
+              file={{url: file, httpHeaders: {"Access-Control-Allow-Origin" : "*"}}}
               className='document'
               onLoadSuccess={this.onDocumentLoadSuccess}
             >
@@ -74,7 +73,7 @@ class AbsenceViewer extends Component {
   }
 }
 
-// AbsenceViewer.propTypes = {
+// DocumentViewer.propTypes = {
 //   abs: PropTypes.object.isRequired
 // }
 //
@@ -82,4 +81,4 @@ class AbsenceViewer extends Component {
 //   abs: state.abs
 // });
 
-export default AbsenceViewer;
+export default DocumentViewer;

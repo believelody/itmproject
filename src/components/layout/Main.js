@@ -14,7 +14,7 @@ import {
   Settings,
   Ads,
   AdminSys,
-  AbsenceViewer,
+  Absence,
   Profile,
   Deposit,
   Login } from '../Export';
@@ -40,7 +40,7 @@ class Main extends Component {
             <AdminRoute exact path='/settings' component={Settings} />
             <AdminRoute exact path='/settings/ads' component={Ads} />
             <AdminRoute exact path='/settings/admin-sys' component={AdminSys} />
-            <AdminRoute exact path='/settings/absence' component={AbsenceViewer} />
+            <AdminRoute exact path='/settings/absence' component={Absence} />
           </Switch>
         </Container>
     );

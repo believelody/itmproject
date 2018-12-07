@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { putAbsenceProof, clearUserFailure } from '../../actions/userAction';
 import { Form, Button, Input, Message, Icon, Image } from 'semantic-ui-react';
-import { AbsenceViewer } from '../Export';
+import { DocumentViewer } from '../Export';
 
 class DepositAbsenceForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: '',
+      preview: '',
+      file: {},
       date: '',
       visible: false,
       errors: [],
@@ -50,7 +51,12 @@ class DepositAbsenceForm extends Component {
 
   handleChange = (e, {name, value}) => {
     if (e.target.id) {
-      this.setState({ file: URL.createObjectURL(e.target.files[0]), open: true });
+      console.log(e.target.files[0]);
+      this.setState({
+        preview: URL.createObjectURL(e.target.files[0]),
+        file: e.target.files[0],
+        open: true
+      });
     }
     else {
       this.setState({ [name]: value});
@@ -66,17 +72,19 @@ class DepositAbsenceForm extends Component {
     if (this.props.user.errors.length > 0) {
       this.props.clearUserFailure();
     }
-    // this.props.putAbsenceProof(this.props.id, data);
+    this.props.putAbsenceProof(this.props.id, data);
 
     this.setState({
-      file: '',
+      preview: '',
+      file: {},
       date: '',
+      open: false,
       errors: [],
     });
   }
 
   render() {
-    const { file, date, errors, visible, open } = this.state;
+    const { preview, date, errors, visible, open } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} noValidate>
         <Form.Field
@@ -124,7 +132,7 @@ class DepositAbsenceForm extends Component {
               content="Pour confirmer l'envoi du document, cliquer sur le bouton <<Enregistrer ci-bas>>"
               header="Visualisation de votre document"
             />
-            <AbsenceViewer file={file} />
+            <DocumentViewer file={preview} />
           </>
         }
         <Button positive content='Enregistrer' />
