@@ -43,24 +43,15 @@ class Absence extends Component {
           <>
             {
               open && documentSelected &&
-              <Modal
-                centered
-                open={open}
-                dimmer='blurring'
-              >
-                <Modal.Header>
-                  Visualisation du document <i style={{color: 'grey'}}>{filename}</i>
+              <Container>
                   <Button
-                    floated='right'
-                    negative
-                    content='Annuler'
-                    onClick={() => this.closeModal(false)}
+                  floated='right'
+                  negative
+                  content='Annuler'
+                  onClick={() => this.closeModal(false)}
                   />
-                </Modal.Header>
-                <Modal.Content>
                   <DocumentViewer file={documentSelected} />
-                </Modal.Content>
-              </Modal>
+              </Container>
             }
             <List divided>
               <Message>

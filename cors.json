@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["http://localhost:3000", "https://itmproject.netlify.com"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

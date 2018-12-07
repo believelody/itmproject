@@ -34,6 +34,7 @@ class DocumentViewer extends Component {
             textAlign='center'
             compact
             className='segment-style'
+            padded='very'
           >
             <div style={{paddingBottom: 10, width: '100%'}}>
               <Button onClick={this.handlePrevious} disabled={pageNumber === 1}>
@@ -47,7 +48,7 @@ class DocumentViewer extends Component {
               </Button>
             </div>
             <Document
-              file={{url: file, httpHeaders: {"Access-Control-Allow-Origin" : "*"}}}
+              file={file}
               className='document'
               onLoadSuccess={this.onDocumentLoadSuccess}
             >
