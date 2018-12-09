@@ -29,6 +29,7 @@ import NewAdmin from './form/NewAdmin';
 import AdminHeader from './header/AdminHeader';
 import UserHeader from './header/UserHeader';
 import Absence from './absence/Absence';
+import UserAbsencePanel from './absence/UserAbsencePanel';
 import DocumentViewer from './document/DocumentViewer';
 import Profile from './profile/Profile';
 import Deposit from './deposit/Deposit';
@@ -66,6 +67,7 @@ export {
   AdminHeader,
   UserHeader,
   Absence,
+  UserAbsencePanel,
   DocumentViewer,
   Profile,
   Deposit,

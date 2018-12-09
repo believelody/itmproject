@@ -12,6 +12,9 @@ const UserHeader = ({handleClick, logout}) =>
       </Menu.Item>
 
       <Menu.Menu position='right'>
+
+        <Menu.Item as={NavLink} exact to='/absence/list' content={`Justificatifs d'absence`} />
+
         <Menu.Item>
           <Dropdown text='Options'>
             <Dropdown.Menu>
@@ -23,6 +26,7 @@ const UserHeader = ({handleClick, logout}) =>
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
+
       </Menu.Menu>
     </>
   }
@@ -34,6 +38,9 @@ const UserHeader = ({handleClick, logout}) =>
       </Menu.Item>
       <Menu.Item>
         <Menu.Menu>
+          <Menu.Item as={NavLink} onClick={() => handleClick(false)} exact to='/absence/list'>
+            Justificatifs d'absence
+          </Menu.Item>
           <Menu.Item content='Options' header />
           <Menu.Item as={NavLink} onClick={() => handleClick(false)} exact to='/profile'>
             Mon Profile

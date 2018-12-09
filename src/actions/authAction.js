@@ -28,6 +28,7 @@ export const authCurrentUser = user => dispatch => {
     snapshot.forEach(childSnapshot => {
       let userMatch = childSnapshot.val();
       if (userMatch.email === user.email) {
+        // console.log(userMatch);
         dispatch({
           type: types.AUTHENTICATED,
           payload: userMatch

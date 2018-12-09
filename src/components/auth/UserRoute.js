@@ -23,14 +23,14 @@ class UserRoute extends Component {
 
   render() {
     const {component: Component, auth, ...rest} = this.props;
-    
+
     return <Route
     {...rest}
     render={
       props => (
         <div>
         { auth.loading && <Loader content='Chargement ...' /> }
-        { !auth.loading && auth.isAuthenticated && <Component {...props} /> }
+        { !auth.loading && auth.isAuthenticated && <Component auth={auth} {...props} /> }
         </div>
       )
     }

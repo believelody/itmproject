@@ -17,6 +17,8 @@ import {
   Absence,
   Profile,
   Deposit,
+  DocumentViewer,
+  UserAbsencePanel,
   Login } from '../Export';
 import './Layout.css';
 
@@ -28,9 +30,11 @@ class Main extends Component {
           <ToastNotif />
           <Switch>
             <Route exact path='/login' component={Login} />
+            <Route exact path='/document/viewer/:document_id/:document_name' component={DocumentViewer} />
             <UserRoute exact path='/' component={UserDashboard} />
             <UserRoute exact path='/profile' component={Profile} />
             <UserRoute exact path='/deposit/:id' component={Deposit} />
+            <UserRoute exact path='/absence/list' component={UserAbsencePanel} />
             <AdminRoute exact path='/admin' component={AdminDashboard} />
             <AdminRoute exact path='/statistic' component={Statistics} />
             <AdminRoute exact path='/users' component={Users} />

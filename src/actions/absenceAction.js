@@ -23,7 +23,7 @@ export const fetchAllAbsences = () => dispatch => {
   });
 }
 
-export const fetchOneDocument = ({id, filename}) => dispatch => {
+export const fetchOneDocument = (id, filename) => dispatch => {
   dispatch(absLoading());
   const documentFetch = absenceStorage.child(`absence/${id}/${filename}`);
   documentFetch

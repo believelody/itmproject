@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Navlink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container, Message, Segment, Button, Icon } from 'semantic-ui-react';
+import { fetchOneDocument } from '../../actions/absenceAction';
+import { Container, Message, Segment, Button, Icon, Loader } from 'semantic-ui-react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import './Document.css';
 
@@ -15,6 +17,14 @@ class DocumentViewer extends Component {
     }
   }
 
+  componentDidMount() {
+    const { document_id, document_name} = this.props.match.params;
+    if (document_id && document_name) {
+      console.log({document_name, document_id});
+      this.props.fetchOneDocument(document_id, document_name);
+    }
+  }
+
   handlePrevious = () => this.setState(prevState => ({ pageNumber: prevState.pageNumber - 1 }));
 
   handleNext = () => this.setState(prevState => ({ pageNumber: prevState.pageNumber + 1 }));
@@ -25,11 +35,20 @@ class DocumentViewer extends Component {
 
   render() {
     const { pageNumber, numPages } = this.state;
-    const { file } = this.props;
+    const { loading, documentSelected } = this.props.abs;
     return (
-      <>
+      <div>
+        <Button
+          color='grey'
+          icon='arrow left'
+          content='Revenir en arrière'
+          onClick={() => this.props.history.goBack()}
+        />
         {
-          file &&
+          loading && <Loader active content='Chargement' />
+        }
+        {
+          !loading && documentSelected &&
           <Segment
             textAlign='center'
             compact
@@ -48,7 +67,7 @@ class DocumentViewer extends Component {
               </Button>
             </div>
             <Document
-              file={file}
+              file={documentSelected}
               className='document'
               onLoadSuccess={this.onDocumentLoadSuccess}
             >
@@ -69,17 +88,17 @@ class DocumentViewer extends Component {
             </div>
           </Segment>
         }
-      </>
+      </div>
     )
   }
 }
 
-// DocumentViewer.propTypes = {
-//   abs: PropTypes.object.isRequired
-// }
-//
-// const mapStateToProps = state => ({
-//   abs: state.abs
-// });
+DocumentViewer.propTypes = {
+  abs: PropTypes.object.isRequired
+}
 
-export default DocumentViewer;
+const mapStateToProps = state => ({
+  abs: state.abs
+});
+
+export default connect(mapStateToProps, { fetchOneDocument })(DocumentViewer);
