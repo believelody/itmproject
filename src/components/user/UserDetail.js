@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchOneUser, deleteUser } from '../../actions/userAction';
+import { fetchOneUser, deleteUser, fetchAvatar } from '../../actions/userAction';
 import 'moment/locale/fr';
 import moment from 'moment';
 import Moment from 'react-moment';
@@ -28,10 +28,19 @@ class UserDetail extends Component {
     if (this.props.match.params.user_id) {
       this.props.fetchOneUser(this.props.match.params.user_id);
     }
+
+    if (this.props.user.selectedUser && this.props.user.selectedUser.img) {
+      console.log(this.props.user.selectedUser);
+      this.props.fetchAvatar(this.props.user.selectedUser.id, this.props.user.selectedUser.img);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-
+    if (nextProps.user.selectedUser && nextProps.user.selectedUser.img) {
+      console.log(nextProps.user.selectedUser);
+      this.props.fetchAvatar(nextProps.user.selectedUser.id, nextProps.user.selectedUser.img);
+    }
+    console.log(nextProps.user.selectedUser);
   }
 
   sendID = () => this.setState({ id: this.props.match.params.user_id, openConfirm: true });
@@ -68,7 +77,7 @@ class UserDetail extends Component {
 
   render() {
     const { collapseAbsence, collapsePresence, collapse, openConfirm, id } = this.state;
-    const { loading, selectedUser } = this.props.user;
+    const { loading, selectedUser, avatar } = this.props.user;
     return (
       <Container>
         <Button onClick={() => this.props.history.goBack()} style={{marginTop: 10}} basic color='black'>Retour à la liste</Button>
@@ -105,7 +114,7 @@ class UserDetail extends Component {
                 </Card.Header>
               </Card.Content>
               <Image
-                src={selectedUser.img || require(selectedUser.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')}
+                src={avatar || require(selectedUser.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')}
                 alt={selectedUser.idNFC}
               />
               <Card.Content>
@@ -197,9 +206,10 @@ UserDetail.propTypes = {
   user: PropTypes.object.isRequired,
   fetchOneUser: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
+  fetchAvatar: PropTypes.func.isRequired
 };
 
 // Equivalent to const mapStateToProps = state => ({ user: state.user });
 const mapStateToProps = ({user}) => ({user});
 
-export default connect(mapStateToProps, { fetchOneUser, deleteUser })(UserDetail);
+export default connect(mapStateToProps, { fetchOneUser, deleteUser, fetchAvatar })(UserDetail);

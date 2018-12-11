@@ -15,7 +15,8 @@ class Users extends Component {
       toggleTable: true,
       filter: false,
       check_email: false,
-      check_poste: false
+      check_poste: false,
+      avatar: []
     };
   }
 

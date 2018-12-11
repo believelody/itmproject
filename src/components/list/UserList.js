@@ -21,6 +21,7 @@ class UserList extends React.Component {
 
   render() {
     const {users, search} = this.props;
+    const { avatar } = this.props.user;
     const { user, openConfirm } = this.state;
 
     return (
@@ -44,9 +45,13 @@ class UserList extends React.Component {
                 if (a.nom < b.nom) return -1;
                 return 0;
               })
-              .map((user, i) =>
-                <Card className='user-item' key={i}>
-                  <Image src={user.img || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} />
+              .map(user =>
+                <Card className='user-item' key={user.id}>
+                  <Image
+                    src={
+                      avatar || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')
+                    }
+                  />
                   <Card.Content>
                     <Card.Header>{user.prenom} {user.nom}</Card.Header>
                     <Card.Meta>{user.email}</Card.Meta>
@@ -76,7 +81,10 @@ class UserList extends React.Component {
 }
 
 UserList.propTypes = {
+  user: PropTypes.object.isRequired,
   deleteUser: PropTypes.func.isRequired
 }
 
-export default connect(null, { deleteUser })(UserList);
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps, { deleteUser })(UserList);

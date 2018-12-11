@@ -44,7 +44,6 @@ class AddUser extends Component {
     }
 
     if (nextProps.user && nextProps.user.selectedUser) {
-      console.log(nextProps.user.selectedUser);
       this.setState({
         idNFC: nextProps.user.selectedUser.id || '',
         nom: nextProps.user.selectedUser.nom || '',
@@ -66,7 +65,15 @@ class AddUser extends Component {
     }
   }
 
-  handleChange = ({target}) => this.setState({ [target.name]: target.value });
+  handleChange = ({target}) => {
+    if (target.id === 'img') {
+      console.log(target.files[0]);
+      this.setState({ preview: URL.createObjectURL(target.files[0]), img: target.files[0] });
+    }
+    else {
+      this.setState({ [target.name]: target.value });
+    }
+  }
 
   handleDismiss = (codeLabel) => {
     if (this.state.errors.length > 0) {
@@ -112,7 +119,6 @@ class AddUser extends Component {
       adresse,
       ville,
       cp,
-      img: img !== undefined ? img : null,
       telephone,
       naissance,
       lieu,
@@ -122,7 +128,7 @@ class AddUser extends Component {
 
     console.log(newUser);
 
-    this.props.addUser(newUser, idNFC, this.props.history, this.props.user.selectedUser);
+    this.props.addUser(newUser, img !== undefined ? img : null, idNFC, this.props.history, this.props.user.selectedUser);
 
     // console.log(this.props.user.errors.length);
 
@@ -172,7 +178,7 @@ class AddUser extends Component {
   }
 
   render() {
-    const { idNFC, titre, email, nom, prenom, niveau, poste, sexe, adresse, ville, cp, naissance, lieu, pays, img, telephone, errors } = this.state;
+    const { idNFC, titre, email, nom, prenom, niveau, poste, sexe, adresse, ville, cp, naissance, lieu, pays, img, telephone, errors, preview } = this.state;
     const { loading, selectedUser } = this.props.user;
 
     return (
@@ -183,14 +189,15 @@ class AddUser extends Component {
               <Form.Field
                 error={(errors.length > 0 && errors.find(err => err.code === 'img')) ? true : false}
               >
-                <Image size='medium' src={img || require((selectedUser && selectedUser.sexe === 'Femme') ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} alt='profil' />
+                <Image size='medium' src={preview || require((selectedUser && selectedUser.sexe === 'Femme') ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} alt='profil' />
                 <Input
                   type='file'
+                  id='img'
                   name='img'
                   label="Photo de l'employé"
+                  accept='image/png, image/jpeg, image/jpg'
                   onChange={this.handleChange}
                   onFocus={this.clearInput}
-                  value={img}
                 />
                 {this.validationFeedBack(errors, 'img')}
               </Form.Field>

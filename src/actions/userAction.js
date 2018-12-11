@@ -9,6 +9,7 @@ const absenceStore = fire.storage().ref().child('absence');
 
 const fireDB = fire.database();
 const fireAuth = fire.auth();
+const fireStorage = fire.storage();
 
 export const userLoading = (isLoading = true) => ({
   type: types.USER_LOADING,
@@ -50,7 +51,7 @@ export const fetchOneUser = id => dispatch => {
   });
 }
 
-export const addUser = (user, idNFC, cb, selectedUser) => dispatch => {
+export const addUser = (user, img, idNFC, cb, selectedUser) => dispatch => {
   if (idNFC === '') {
     dispatch(userFailure({code: 'idNFC', msg: "Le champ Identifiant de l'appareil est requis"}));
   }
@@ -99,7 +100,20 @@ export const addUser = (user, idNFC, cb, selectedUser) => dispatch => {
   if (idNFC !== '' && user.nom !== '' && user.email !== '' && user.poste !== '' && user.sexe !== '' && user.prenom !== '' && user.adresse !== '' && user.ville !== '' && user.cp !== '' && user.telephone !== '' && user.naissance !== '' && user.lieu !== '' && user.pays !== '' && user.titre !== '' && user.niveau !== '') {
     if (selectedUser) {
       let updates = {};
-      updates[`User/${selectedUser.id}`] = user;
+      updates[`User/${selectedUser.id}`] = {...user, img: img.name};
+
+      if (img) {
+        console.log(img);
+        let fileImg = new File([img], img.name, {type:'image/png, image/jpeg, image/jpg'});
+
+        fireStorage
+          .ref()
+          .child('avatar')
+          .child(selectedUser.id)
+          .child(img.name)
+          .put(fileImg)
+      }
+
       fireDB
         .ref()
         .update(updates)
@@ -120,6 +134,17 @@ export const addUser = (user, idNFC, cb, selectedUser) => dispatch => {
       axios
         .post('/.netlify/functions/create-user', {email: user.email, password: idNFC})
         .then(res => {
+          if (img) {
+            let fileImg = new File([img], img.name, {type:'image/png, image/jpeg, image/jpg'});
+
+            fireStorage
+              .ref()
+              .child('avatar')
+              .child(idNFC)
+              .child(img.name)
+              .put(fileImg)
+          }
+
           userRef
             .child(idNFC)
             .set(user)
@@ -265,6 +290,24 @@ export const putAbsenceProof = (id, {file, date}) => dispatch => {
   }
 }
 
-export const receiveNotif = (id, data) => dispatch => {
+export const fetchAvatar = (id, filename = '') => dispatch => {
+  if (filename) {
+    const documentFetch = fireStorage.ref().child(`avatar/${id}/${filename}`);
 
+    documentFetch
+    .getDownloadURL()
+    .then(url => {
+      dispatch({
+        type: types.FETCH_AVATAR_URL,
+        payload: url
+      });
+    })
+    .catch(err => console.log(err));
+  }
+  else {
+    dispatch({
+      type: types.FETCH_AVATAR_URL,
+      payload: ''
+    });
+  }
 }
