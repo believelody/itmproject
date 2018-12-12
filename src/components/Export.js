@@ -7,7 +7,9 @@ import AdminDashboard from './home/AdminDashboard';
 import AddUser from './user/AddUser';
 import UserDetail from './user/UserDetail';
 import UserList from './list/UserList';
+import UserListCard from './list/UserListCard';
 import UserTable from './table/UserTable';
+import UserRow from './table/UserRow';
 import FilterFields from './form/FilterFields';
 import Desktop from './device-size/Desktop';
 import Mobile from './device-size/Mobile';
@@ -45,7 +47,9 @@ export {
   AddUser,
   UserDetail,
   UserList,
+  UserListCard,
   UserTable,
+  UserRow,
   FilterFields,
   Desktop,
   Mobile,

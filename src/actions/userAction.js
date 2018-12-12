@@ -32,8 +32,9 @@ export const fetchAllUsers = () => dispatch => {
     // for (let user in snapshot.val()) users[i].id = user;
     let users = [];
     snapshot.forEach(childSnapshot => {
-      users.push({id: childSnapshot.key, ...childSnapshot.val()});
+      users.push({id: childSnapshot.key, ...childSnapshot.val() });
     });
+    
     dispatch({
       type: types.FETCH_ALL_USERS,
       payload: users
@@ -44,10 +45,26 @@ export const fetchAllUsers = () => dispatch => {
 export const fetchOneUser = id => dispatch => {
   dispatch(userLoading());
   userRef.child(id).once('value', snapshot => {
-    dispatch({
-      type: types.FETCH_ONE_USER,
-      payload: {id: snapshot.key, ...snapshot.val()}
-    });
+    if (snapshot.val().img) {
+      const documentFetch = fireStorage.ref().child(`avatar/${snapshot.key}/${snapshot.val().img}`);
+
+      documentFetch
+      .getDownloadURL()
+      .then(url => {
+        // console.log(url);
+        dispatch({
+          type: types.FETCH_ONE_USER,
+          payload: {id: snapshot.key, ...snapshot.val(), avatar: url}
+        });
+      })
+      .catch(err => console.log(err));
+    }
+    else {
+      dispatch({
+        type: types.FETCH_ONE_USER,
+        payload: {id: snapshot.key, ...snapshot.val()}
+      });
+    }
   });
 }
 
@@ -290,24 +307,25 @@ export const putAbsenceProof = (id, {file, date}) => dispatch => {
   }
 }
 
-export const fetchAvatar = (id, filename = '') => dispatch => {
-  if (filename) {
-    const documentFetch = fireStorage.ref().child(`avatar/${id}/${filename}`);
-
-    documentFetch
-    .getDownloadURL()
-    .then(url => {
-      dispatch({
-        type: types.FETCH_AVATAR_URL,
-        payload: url
-      });
-    })
-    .catch(err => console.log(err));
-  }
-  else {
-    dispatch({
-      type: types.FETCH_AVATAR_URL,
-      payload: ''
-    });
-  }
-}
+// export const fetchAvatar = (id, filename = '') => dispatch => {
+//   if (filename) {
+//     const documentFetch = fireStorage.ref().child(`avatar/${id}/${filename}`);
+//
+//     documentFetch
+//     .getDownloadURL()
+//     .then(url => {
+//       // console.log(url);
+//       dispatch({
+//         type: types.FETCH_AVATAR_URL,
+//         payload: url
+//       });
+//     })
+//     .catch(err => console.log(err));
+//   }
+//   else {
+//     dispatch({
+//       type: types.FETCH_AVATAR_URL,
+//       payload: ''
+//     });
+//   }
+// }

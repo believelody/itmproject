@@ -4,17 +4,11 @@ const initialState = {
   loading: false,
   users: [],
   errors: [],
-  selectedUser: null,
-  avatar: ''
+  selectedUser: null
 }
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case types.FETCH_AVATAR_URL:
-      return {
-        ...state,
-        avatar: payload
-      }
     case types.USER_LOADING:
       return {
         ...state,

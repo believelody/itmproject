@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchOneUser, deleteUser, fetchAvatar } from '../../actions/userAction';
+import { fetchOneUser, deleteUser } from '../../actions/userAction';
 import 'moment/locale/fr';
 import moment from 'moment';
 import Moment from 'react-moment';
@@ -10,11 +10,15 @@ import { Collapse } from 'reactstrap';
 import { Card, Dropdown, Button, Image, Icon, Container, Loader } from 'semantic-ui-react';
 import { ConfirmAction } from '../Export';
 import './User.css';
+import fire from '../../firebaseConfig';
+
+const fireStorage = fire.storage();
 
 class UserDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      avatar: '',
       isOpen: false,
       collapsePresence: false,
       collapseAbsence: false,
@@ -28,19 +32,15 @@ class UserDetail extends Component {
     if (this.props.match.params.user_id) {
       this.props.fetchOneUser(this.props.match.params.user_id);
     }
-
-    if (this.props.user.selectedUser && this.props.user.selectedUser.img) {
-      console.log(this.props.user.selectedUser);
-      this.props.fetchAvatar(this.props.user.selectedUser.id, this.props.user.selectedUser.img);
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.selectedUser && nextProps.user.selectedUser.img) {
-      console.log(nextProps.user.selectedUser);
-      this.props.fetchAvatar(nextProps.user.selectedUser.id, nextProps.user.selectedUser.img);
+      const documentFetch = fireStorage.ref().child(`avatar/${nextProps.user.selectedUser.id}/${nextProps.user.selectedUser.img}`);
+      this.setState({ avatar: '' });
+
+      documentFetch.getDownloadURL().then(avatar => this.setState({ avatar }));
     }
-    console.log(nextProps.user.selectedUser);
   }
 
   sendID = () => this.setState({ id: this.props.match.params.user_id, openConfirm: true });
@@ -76,13 +76,14 @@ class UserDetail extends Component {
   }
 
   render() {
-    const { collapseAbsence, collapsePresence, collapse, openConfirm, id } = this.state;
-    const { loading, selectedUser, avatar } = this.props.user;
+    const { collapseAbsence, collapsePresence, collapse, openConfirm, id, avatar } = this.state;
+    console.log(avatar);
+    const { loading, selectedUser } = this.props.user;
     return (
       <Container>
         <Button onClick={() => this.props.history.goBack()} style={{marginTop: 10}} basic color='black'>Retour à la liste</Button>
         {
-          loading && <Loader active inline='centered' size='large' />
+          loading && <Loader active size='large' />
         }
         {
           !loading && selectedUser &&
@@ -205,11 +206,10 @@ class UserDetail extends Component {
 UserDetail.propTypes = {
   user: PropTypes.object.isRequired,
   fetchOneUser: PropTypes.func.isRequired,
-  deleteUser: PropTypes.func.isRequired,
-  fetchAvatar: PropTypes.func.isRequired
+  deleteUser: PropTypes.func.isRequired
 };
 
 // Equivalent to const mapStateToProps = state => ({ user: state.user });
 const mapStateToProps = ({user}) => ({user});
 
-export default connect(mapStateToProps, { fetchOneUser, deleteUser, fetchAvatar })(UserDetail);
+export default connect(mapStateToProps, { fetchOneUser, deleteUser })(UserDetail);

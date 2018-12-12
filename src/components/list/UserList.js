@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteUser } from '../../actions/userAction';
-
 // import { Card, Button, CardImg, CardBody, CardTitle, CardText, Alert } from 'reactstrap';
 import { Card, Button, Image } from 'semantic-ui-react';
-import { ConfirmAction } from '../Export';
+import { ConfirmAction, UserListCard } from '../Export';
 import './UserList.css';
 
 class UserList extends React.Component {
@@ -21,7 +20,6 @@ class UserList extends React.Component {
 
   render() {
     const {users, search} = this.props;
-    const { avatar } = this.props.user;
     const { user, openConfirm } = this.state;
 
     return (
@@ -46,32 +44,7 @@ class UserList extends React.Component {
                 return 0;
               })
               .map(user =>
-                <Card className='user-item' key={user.id}>
-                  <Image
-                    src={
-                      avatar || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')
-                    }
-                  />
-                  <Card.Content>
-                    <Card.Header>{user.prenom} {user.nom}</Card.Header>
-                    <Card.Meta>{user.email}</Card.Meta>
-                  </Card.Content>
-                  <Card.Content extra>
-                      <NavLink to={`/user/${user.id}`}>
-                        <Button basic color='blue'>
-                          Voir profile
-                        </Button>
-                      </NavLink>
-                      <NavLink to={`/edit-user/${user.id}`}>
-                        <Button basic color='green'>
-                          Edit
-                        </Button>
-                      </NavLink>
-                      <Button onClick={() => this.sendID(user)} basic color='red'>
-                        Delete
-                      </Button>
-                  </Card.Content>
-                </Card>
+                <UserListCard key={user.id} sendID={this.sendID} userRow={user} />
               )
           }
         </div>

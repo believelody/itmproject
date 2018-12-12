@@ -15,8 +15,7 @@ class Users extends Component {
       toggleTable: true,
       filter: false,
       check_email: false,
-      check_poste: false,
-      avatar: []
+      check_poste: false
     };
   }
 
@@ -36,7 +35,7 @@ class Users extends Component {
   render() {
     const { search, toggleTable, check_email, check_poste } = this.state;
     const { loading, users } = this.props.user;
-
+    // console.log(users.length);
     return (
       <div>
         {

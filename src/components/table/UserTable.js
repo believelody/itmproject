@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteUser } from '../../actions/userAction';
-import { Table, Button, Image, Icon } from 'semantic-ui-react';
-import { ConfirmAction } from '../Export';
+import { Table } from 'semantic-ui-react';
+import { ConfirmAction, UserRow } from '../Export';
 
 class UserTable extends React.Component {
   state = {
@@ -19,7 +18,7 @@ class UserTable extends React.Component {
   render() {
     const { users, search, check } = this.props;
     const { user, openConfirm } = this.state;
-
+    // console.log(users);
     return (
       <div>
         <ConfirmAction
@@ -56,35 +55,8 @@ class UserTable extends React.Component {
                   if (a.nom < b.nom) return -1;
                   return 0;
                 })
-                .map((user, i) =>
-                  <Table.Row key={i}>
-                    <Table.Cell>
-                      <Image avatar src={user.img || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')} />
-                    </Table.Cell>
-                    <Table.Cell>
-                      {
-                        user.prenom
-                      }
-                    </Table.Cell>
-                    <Table.Cell>
-                      {
-                        user.nom
-                      }
-                    </Table.Cell>
-                    {!check.email && <Table.Cell>{user.email}</Table.Cell>}
-                    {!check.poste && <Table.Cell>{user.poste}</Table.Cell>}
-                    <Table.Cell>
-                      <NavLink to={`/user/${user.id}`} className='mr-2'>
-                        <Button color="blue" content='Voir profile' />
-                      </NavLink>
-                      <NavLink to={`/edit-user/${user.id}`} className='mr-2'>
-                        <Button color="green">
-                          Edit
-                        </Button>
-                      </NavLink>
-                      <Button onClick={() => this.sendID(user)} color="red">Delete</Button>
-                    </Table.Cell>
-                  </Table.Row>
+                .map(user =>
+                  <UserRow key={user.id} sendID={this.sendID} check={check} userRow={user} />
                 )
             }
           </Table.Body>
