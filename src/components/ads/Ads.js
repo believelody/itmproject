@@ -31,7 +31,7 @@ class Ads extends PureComponent {
 
   openModal = open => {
     this.setState({ open });
-    this.clearSelectedAd();
+    if (!open) this.clearSelectedAd();
   }
 
   sendID = selectedAd => this.setState({ selectedAd, openConfirm: true });

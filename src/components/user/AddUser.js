@@ -38,8 +38,10 @@ class AddUser extends Component {
   componentDidMount() {
     // console.log(this.props.match.params.user_id);
     if (this.props.match.params.user_id) {
+      console.log('edit');
       this.props.fetchOneUser(this.props.match.params.user_id);
     }
+    else console.log('new');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -195,7 +197,7 @@ class AddUser extends Component {
             loading && <Loader active content='Chargement...' />
           }
           {
-            !loading && selectedUser &&
+            !loading &&
             <Form style={{padding: '10px 0'}} onSubmit={this.handleSubmit} noValidate>
               <Form.Group style={{paddingBottom: 20}}>
                 <Form.Field
