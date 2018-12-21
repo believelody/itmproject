@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { putAbsenceProof, clearUserFailure } from '../../actions/userAction';
-import { Form, Button, Input, Message, Icon, Image } from 'semantic-ui-react';
+import { Form, Button, Input, Message, Icon, Image, Segment } from 'semantic-ui-react';
+import { Document, Page, pdfjs } from 'react-pdf';
 import { DocumentViewer } from '../Export';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 class DepositAbsenceForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageNumber: 1,
       preview: '',
       file: {},
       date: '',
@@ -63,7 +67,13 @@ class DepositAbsenceForm extends Component {
     }
   }
 
+  handlePrevious = () => this.setState(prevState => ({ pageNumber: prevState.pageNumber - 1 }));
 
+  handleNext = () => this.setState(prevState => ({ pageNumber: prevState.pageNumber + 1 }));
+
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({ numPages });
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +94,7 @@ class DepositAbsenceForm extends Component {
   }
 
   render() {
-    const { preview, date, errors, visible, open } = this.state;
+    const { preview, date, errors, visible, open, pageNumber, numPages } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} noValidate>
         <Form.Field
@@ -126,16 +136,53 @@ class DepositAbsenceForm extends Component {
           {this.validationFeedBack(errors, 'file')}
         </Form.Field>
         {
-          open &&
+          preview &&
           <>
             <Message
               content="Pour confirmer l'envoi du document, cliquer sur le bouton <<Enregistrer ci-bas>>"
               header="Visualisation de votre document"
             />
-            <DocumentViewer file={preview} />
+            <Segment
+              textAlign='center'
+              compact
+              className='segment-style'
+              padded='very'
+            >
+              <div style={{paddingBottom: 10, width: '100%'}}>
+                <Button onClick={this.handlePrevious} disabled={pageNumber === 1}>
+                  <Icon name='arrow left' />
+                  Précédent
+                </Button>
+                <span style={{padding: '0 50px'}}>{ pageNumber } / { numPages }</span>
+                <Button onClick={this.handleNext} disabled={pageNumber === numPages}>
+                  Suivant
+                  <Icon name='arrow right' />
+                </Button>
+              </div>
+              <Document
+                file={preview}
+                className='document'
+                onLoadSuccess={this.onDocumentLoadSuccess}
+              >
+                <Page
+                  pageNumber={pageNumber}
+                />
+              </Document>
+              <div style={{paddingTop: 10}}>
+                <Button onClick={this.handlePrevious} disabled={pageNumber === 1}>
+                  <Icon name='arrow left' />
+                  Précédent
+                </Button>
+                <span style={{padding: '0 50px'}}>{ pageNumber } / { numPages }</span>
+                <Button onClick={this.handleNext} disabled={pageNumber === numPages}>
+                  Suivant
+                  <Icon name='arrow right' />
+                </Button>
+              </div>
+            </Segment>
           </>
         }
-        <Button positive content='Enregistrer' />
+        <Button type='submit' positive content='Enregistrer' />
       </Form>
     )
   }

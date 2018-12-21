@@ -10,6 +10,9 @@ import { Collapse } from 'reactstrap';
 import { Card, Dropdown, Button, Image, Icon, Container, Loader, Segment } from 'semantic-ui-react';
 import { ConfirmAction } from '../Export';
 import './Profile.css';
+import fire from '../../firebaseConfig';
+
+const fireStorage = fire.storage();
 
 class Profile extends Component {
   constructor(props) {
@@ -23,7 +26,11 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-
+    console.log(this.props.auth.user);
+    if (this.props.auth.user && this.props.auth.user.img) {
+      const documentFetch = fireStorage.ref().child(`avatar/${this.props.auth.user.id}/${this.props.auth.user.img}`);
+      documentFetch.getDownloadURL().then(avatar => this.setState({ avatar }));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,7 +40,7 @@ class Profile extends Component {
   toggle = () => this.setState(prevState => ({ isOpen: !prevState.isOpen }));
 
   render() {
-    const { collapse, openConfirm, id } = this.state;
+    const { collapse, openConfirm, id, avatar } = this.state;
     const { loading, user } = this.props.auth;
     return (
       <Container>
@@ -52,7 +59,7 @@ class Profile extends Component {
             </NavLink>
             <Card centered fluid className='user-detail'>
               <Image
-                src={user.img || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')}
+                src={avatar || require(user.sexe === 'Femme' ? '../../img/itm_avatar_user_woman.jpg' : '../../img/itm_avatar_user_male.png')}
                 alt={user.idNFC}
               />
               <Card.Content>

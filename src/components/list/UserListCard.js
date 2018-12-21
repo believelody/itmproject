@@ -38,7 +38,7 @@ class UserListCard extends Component {
         <Card.Content extra>
             <NavLink to={`/user/${userRow.id}`}>
               <Button basic color='blue'>
-                Voir profile
+                Voir profil
               </Button>
             </NavLink>
             <NavLink to={`/edit-user/${userRow.id}`}>

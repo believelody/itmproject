@@ -18,10 +18,12 @@ class DocumentViewer extends Component {
   }
 
   componentDidMount() {
-    const { document_id, document_name} = this.props.match.params;
-    if (document_id && document_name) {
-      console.log({document_name, document_id});
-      this.props.fetchOneDocument(document_id, document_name);
+    if (this.props.match) {
+      const { document_id, document_name} = this.props.match.params;
+      if (document_id && document_name) {
+        console.log({document_name, document_id});
+        this.props.fetchOneDocument(document_id, document_name);
+      }
     }
   }
 

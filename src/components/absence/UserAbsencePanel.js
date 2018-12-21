@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Container, Loader, List, Button } from 'semantic-ui-react';
+import { Container, Loader, List, Button, Segment, Message } from 'semantic-ui-react';
 
 const UserAbsencePanel = ({auth}) => {
+  console.log(auth);
   const absList = [];
   const { loading, user } = auth;
   if (user) {
@@ -19,6 +20,14 @@ const UserAbsencePanel = ({auth}) => {
         loading && <Loader active content='Chargement' />
       }
       {
+        !loading && user && absList.length === 0 &&
+        <Segment>
+          <Message>
+            Vous n'avez pas de justificatifs d'absence. Pour en déposer un, <NavLink to={`/deposit/${user.id}`}>cliquez ici</NavLink>
+          </Message>
+        </Segment>
+      }
+      {
         !loading && user && absList.length > 0 &&
         <List divided>
           {
@@ -26,7 +35,8 @@ const UserAbsencePanel = ({auth}) => {
               <List.Item key={item.id}>
                 <List.Content>
                   <List.Description>
-                    <b>{item.filename}</b> déposé le {item.date}
+                    Absence du: {item.date}.<br />
+                    Nom fichier: <b>{item.filename}</b>
                     <NavLink to={`/document/viewer/${item.id}/${item.filename}`}>
                       <Button
                         floated='right'

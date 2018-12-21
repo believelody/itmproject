@@ -43,7 +43,7 @@ class UserRow extends Component {
         {!check.poste && <Table.Cell>{userRow.poste}</Table.Cell>}
         <Table.Cell>
           <NavLink to={`/user/${userRow.id}`} className='mr-2'>
-            <Button color="blue" content='Voir profile' />
+            <Button color="blue" content='Voir profil' />
           </NavLink>
           <NavLink to={`/edit-user/${userRow.id}`} className='mr-2'>
             <Button color="green">

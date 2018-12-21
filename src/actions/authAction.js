@@ -31,7 +31,7 @@ export const authCurrentUser = user => dispatch => {
         // console.log(userMatch);
         dispatch({
           type: types.AUTHENTICATED,
-          payload: userMatch
+          payload: {...userMatch, id: childSnapshot.key}
         });
       }
     });

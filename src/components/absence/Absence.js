@@ -42,7 +42,8 @@ class Absence extends Component {
                     <List.Content>
                       <List.Header>{this.getUser(absence.user_id)}</List.Header>
                       <List.Description>
-                        <b>{absence.filename}</b> déposé le {absence.date}
+                        Absence du: {absence.date}.<br />
+                        Nom fichier: <b>{absence.filename}</b>
                         <NavLink to={`/document/viewer/${absence.id}/${absence.filename}`}>
                           <Button
                             floated='right'

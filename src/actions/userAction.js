@@ -34,7 +34,7 @@ export const fetchAllUsers = () => dispatch => {
     snapshot.forEach(childSnapshot => {
       users.push({id: childSnapshot.key, ...childSnapshot.val() });
     });
-    
+
     dispatch({
       type: types.FETCH_ALL_USERS,
       payload: users
@@ -152,6 +152,7 @@ export const addUser = (user, img, idNFC, cb, selectedUser) => dispatch => {
         .post('/.netlify/functions/create-user', {email: user.email, password: idNFC})
         .then(res => {
           if (img) {
+            console.log('image');
             let fileImg = new File([img], img.name, {type:'image/png, image/jpeg, image/jpg'});
 
             fireStorage
@@ -164,7 +165,7 @@ export const addUser = (user, img, idNFC, cb, selectedUser) => dispatch => {
 
           userRef
             .child(idNFC)
-            .set(user)
+            .set({...user, img})
             .then(() => {
               let content = `${user.prenom} ${user.nom} a bien été ${user.sexe === 'Femme' ? 'ajoutée' : 'ajouté'}`;
 
