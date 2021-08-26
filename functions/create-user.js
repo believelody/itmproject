@@ -1,12 +1,5 @@
-import express from "express";
 import bodyParser from "body-parser";
 import firebaseAdmin from '../misc/firebaseAdmin';
-
-// const functionName = 'create-user';
-// const app = express();
-//
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
 
 const adminAuth = firebaseAdmin.auth();
 
